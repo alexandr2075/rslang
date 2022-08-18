@@ -5,4 +5,4 @@ const app = document.querySelector('#app');
 app.innerText = 'Learnwords';
 
 const testWords = new WordsApi();
-console.log(words.getWords())
+console.log(testWords.getWords())
