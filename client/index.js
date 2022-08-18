@@ -4,5 +4,5 @@ import WordsApi from "./src/api/wordsApi";
 const app = document.querySelector('#app');
 app.innerText = 'Learnwords';
 
-const testWords = new WordsApi();
-console.log(testWords.getWords())
+const words = new WordsApi();
+console.log(words.getWords())
