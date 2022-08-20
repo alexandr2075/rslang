@@ -19,8 +19,8 @@ const createNewUser = async (user) => {
   return response.json();
 }
 
-const getUser = async (id, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${id}`;
+const getUser = async (userId, token) => {
+  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}`;
   const response = await fetch(url, {
     method: 'GET',
     withCredentials: true,
@@ -36,8 +36,8 @@ const getUser = async (id, token) => {
   return await response.json();
 }
 
-const updateUser = async (id, body, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${id}`;
+const updateUser = async (userId, body, token) => {
+  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}`;
   let content = false;
   const response = await fetch(url, {
     method: 'PUT',
@@ -59,8 +59,8 @@ const updateUser = async (id, body, token) => {
   return content;
 }
 
-const deleteUser = async (id, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${id}`;
+const deleteUser = async (userId, token) => {
+  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     withCredentials: true,
@@ -102,5 +102,5 @@ const getNewUserTokens = async (userId, token) => {
     getUser,
     updateUser,
     deleteUser,
-    getNewUserTokens,
+    getNewUserTokens
   }
