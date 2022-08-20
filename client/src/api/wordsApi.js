@@ -1,4 +1,4 @@
-import { Api } from "../utils/api";
+import { Api } from "../utils/api.js";
 export default class WordsApi {
    async getWords(){
     try {
