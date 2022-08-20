@@ -7,6 +7,7 @@ export const Api = {
     settings : 'settings',
     statistics : 'statistics',
     aggrgateWords : 'aggrgateWords',
+    tokens: 'tokens',
   },
   queries: {
     words: {
