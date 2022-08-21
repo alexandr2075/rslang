@@ -1,22 +1,13 @@
 const Api = {
   baseUrl: 'https://learnwords-rs-school.herokuapp.com',
   endpoints: {
-<<<<<<< HEAD
-    words : 'words',
-    users : 'users',
-    signin : 'signin',
-    settings : 'settings',
-    statistics : 'statistics',
-    aggrgateWords : 'aggrgateWords',
-    tokens: 'tokens',
-=======
     words: 'words',
     users: 'users',
     signin: 'signin',
     settings: 'settings',
     statistics: 'statistics',
     aggrgateWords: 'aggrgateWords',
->>>>>>> d30279d (feat: add auth)
+    tokens: 'tokens',
   },
   queries: {
     words: {
