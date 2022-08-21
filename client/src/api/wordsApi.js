@@ -13,3 +13,4 @@ export  {
   getWords,
   getWordById
 }
+
