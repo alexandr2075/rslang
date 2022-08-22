@@ -1,14 +1,4 @@
 .modal {
-<<<<<<< HEAD
-    width: 400px;
-    height: 300px;
-    margin: 100px auto;
-    overflow-y: auto;
-    background: #fff;
-    border: 1px black solid;
-    border-radius: 5px;
-    padding: 20px;
-=======
     position: fixed;
     width: 100%;
     height: 100%;
@@ -46,5 +36,4 @@
     justify-content: space-between;
     align-items: center;
     row-gap: 10px;
->>>>>>> 0583aaf (fix: fix css)
 }
