@@ -21,5 +21,6 @@
     "rules": {
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "import/no-cycle": [2, { "maxDepth": 1 }]
+        // "quote-props": "off"
     }
 }
