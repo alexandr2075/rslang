@@ -1,55 +1,54 @@
 import './index.css';
-import Api from '../utils/api';
+import { createNewUser } from '../api/usersApi';
+import signInApi from '../api/signInApi';
 
 export default class Auth {
   constructor() {
     this.page = `
-    <div class='modal'>
-      <form class='form' id='auth-form'>
-          <div class="email">
-              <input id="email" type="email" required>
-              <label for="email">Email</label>
+      <div id="modal" class="modal">
+        <div class='modal__wrapper'>
+          <div class="modal__form">
+            <form class='form' id='auth-form'>
+              <div class="username">
+                  <label for="username">Name</label>
+                  <input id="username" type="username" required>
+              </div>
+              <div class="email">
+                  <label for="email">Email</label>
+                  <input id="email" type="email" required>
+              </div>
+              <div class="password">
+                  <label for="password">Password</label>
+                  <input id="password" type="password" required>
+              </div>
+              <button type="submit" class="sign-in">Sign in</button>
+              <hr>
+              <button type="submit" class="sign-up">Sign up</button>
+              <p class="warning"></p>
+            </form>
           </div>
-          <div class="password">
-              <input id="password" type="password" required>
-              <label for="password">Password</label>
-          </div>
-          <button type="submit" class="sign-in">Sign in</button>
-      </form>
-    </div>
+        </div>
+      </div>
         `;
-  }
-
-  static async authWithEmailAndPassword(user) {
-    try {
-      const rawResponse = await fetch(`${Api.baseUrl}/${Api.endpoints.signin}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      const content = await rawResponse.json();
-
-      console.log(content);
-    } catch (error) {
-      throw new Error(error.message);
-    }
   }
 
   static authFormhandler(event) {
     event.preventDefault();
 
-    // const email = document.querySelector('#email').value;
-    // const password = document.querySelector('#password').value;
+    const name = document.querySelector('#username').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
 
-    Auth.authWithEmailAndPassword({ email: 'u@mail.ru', password: 'iroeoeoeooo' });
+    createNewUser({ name, email, password })
+      .then((data) => {
+        sessionStorage.setItem('dataUser', JSON.stringify(data));
+        signInApi({ email, password })
+          .then((token) => sessionStorage.setItem('tokenData', JSON.stringify(token)));
+      });
   }
 
   render() {
-    const app = document.querySelector('#app');
-    app.insertAdjacentHTML('beforeend', this.page);
+    document.body.insertAdjacentHTML('afterbegin', this.page);
     document
       .getElementById('auth-form')
       .addEventListener('submit', Auth.authFormhandler, { once: true });
