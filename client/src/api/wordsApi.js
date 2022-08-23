@@ -11,5 +11,5 @@ const getWordById = async (wordId) => {
 
 export  {
   getWords,
-  getWordById,
+  getWordById
 }
