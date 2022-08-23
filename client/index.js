@@ -1,19 +1,11 @@
-import './style.css';
-import Auth from './src/auth';
+import out from './src/js/MainPage';
+import WordsApi from './src/api/wordsApi';
 
 const app = document.querySelector('#app');
 app.innerText = 'Learnwords';
 
-const auth = new Auth();
-auth.render();
+const main = out();
+app.insertAdjacentHTML('beforeend', main);
 
-const modal = document.getElementById('modal');
-app.addEventListener('click', () => {
-  modal.classList.add('open');
-});
-
-modal.addEventListener('click', (e) => {
-  if (!e.target.closest('.modal__form')) {
-    modal.classList.remove('open');
-  }
-});
+const words = new WordsApi();
+console.log(words.getWords());
