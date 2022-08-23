@@ -1,5 +1,5 @@
-import './style.css';
-import Auth from './src/auth';
+import out from './src/js/MainPage';
+import WordsApi from './src/api/wordsApi';
 
 const app = document.querySelector('#app');
 app.innerText = 'Learnwords';
