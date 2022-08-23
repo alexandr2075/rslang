@@ -4,21 +4,31 @@ import Words from './words';
 import PaginationButtons from '../pagination/pagination-buttons';
 import wordsPageState from '../../utils/state';
 import Footer from '../footer'
+import WordsPageMenu from './menu';
+
 
 
 export default class WordsPage extends createComponent {
   constructor(parentNode) {
-    super(parentNode, 'div', 'words', '');
-    this.paginationButtons = new PaginationButtons(this.node);
-    this.paginationHandler();
-    this.renderWords();
-    const footer = new Footer(document.body);
-
+    super(parentNode, 'div', 'dictionary', '');
+    this.menu = new WordsPageMenu(this.node);
+    this.groupRoutHandler();
   }
 
   renderWords() {
-    this.words = new Words(this.node);
+    this.wordsContainer = new createComponent(this.node, 'div', 'words-container')
+    this.words = new Words(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.paginationHandler();
+    this.footer = new Footer(this.wordsContainer.node)
+    
+  }
 
+  groupRoutHandler() {
+    this.menu.onRout = async() => {
+      this.menu.destroy()
+        this.renderWords()
+    }
   }
   
   paginationHandler() {
@@ -41,7 +51,7 @@ export default class WordsPage extends createComponent {
   }
   
   rerenderWords() {
-    this.words.destroy();
+    this.wordsContainer.destroy();
     this.renderWords();
   }
 }
