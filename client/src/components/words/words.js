@@ -1,3 +1,5 @@
+import '../../styles/components/words.scss';
+
 import createComponent from "../../utils/createComponent";
 import { getWords } from "../../api/wordsApi";
 import Word from "./word";
@@ -7,6 +9,7 @@ export default class Words extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
     this.wordsRender();
+    this.updateMainColor();
   }
 
  async wordsRender() {
@@ -17,6 +20,10 @@ export default class Words extends createComponent {
   });
  }
 
+ updateMainColor() {
+  let root = document.documentElement;
+  root.style.setProperty('--main-color', wordsPageState.color[wordsPageState.group])
+ }
 
 }
 

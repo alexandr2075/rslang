@@ -1,4 +1,5 @@
 import createComponent from "../../utils/createComponent";
+import '../../styles/components/word.scss'
 import {Api} from '../../utils/api'
 
 export default class Words extends createComponent{
@@ -24,12 +25,11 @@ export default class Words extends createComponent{
 
   render() {
     this.node.innerHTML =  `
-    <div class = word-title>
-      <img src=${this.image} alt='${this.word}'>
-      <p>${this.word}</p>
-      <p>${this.transcription}</p>
-      <button class="audio" data-audio="${this.audio}"></button>
+    <div class="word-title">
+    <p>${this.word} - ${this.transcription}</p>
+    <button class="audio" data-audio="${this.audio}"></button>
     </div>
+    <img src=${this.image} alt="${this.word}" class="words-image">
     <p class="translate">${this.wordTranslate}</p>
     <div class="example">
      <p>${this.textExample}</p>

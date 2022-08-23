@@ -15,7 +15,7 @@ export default class WordsPageMenu extends createComponent {
     wordsPageState.levels.forEach((level, index) => {
       level = new createComponent(this.node, 'div', `${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`)
       level.node.setAttribute('data-group', index)
-      console.log(level.node.dataset.group)
+      level.node.style.backgroundColor = wordsPageState.color[index];
     })
   }
 
