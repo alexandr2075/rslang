@@ -1,6 +1,9 @@
-function out(){
-    let header = document.getElementById('qwe');
-        header.innerHTML = `<div class="header ">
+import '../style/header.scss';
+import '../style/style.scss';
+
+export default function out() {
+  const header = document.getElementById('qwe');
+  header.innerHTML = `<div class="header ">
         <div class="wrapper header__wrapper ">
         <div class="header__part">
         <div class="hamburger ">
@@ -90,5 +93,4 @@ function out(){
     </div></div><div class="footer__bottom-block">©2022 RS LANG;
     <a href="https://rs.school/js/">RS School Course.</a></div></div></div>
     </footer>`;
-};
-out();
+}
