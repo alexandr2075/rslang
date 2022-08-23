@@ -1,0 +1,10 @@
+.modal {
+    width: 400px;
+    height: 300px;
+    margin: 100px auto;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 20px;
+}

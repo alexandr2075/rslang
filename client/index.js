@@ -1,5 +1,7 @@
+import './style.css';
 import out from './src/js/MainPage';
 import WordsApi from './src/api/wordsApi';
+import Auth from './src/auth';
 
 const app = document.querySelector('#app');
 app.innerText = 'Learnwords';
@@ -23,4 +25,3 @@ modal.addEventListener('click', (e) => {
     modal.classList.remove('open');
   }
 });
-
