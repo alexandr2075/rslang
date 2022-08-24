@@ -1,0 +1,30 @@
+:root {
+  --main-color: #ffffff;
+}
+.words-header {
+  background-color: #181818;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  box-shadow: 10px 0 10px var(--main-color);
+  padding: 1em;
+}
+
+.to-menu-btn {
+   line-height: 40px;
+   width: 100px;
+   height: 40px;
+   background: #181818;
+   border: none;
+   border-radius: 8px;
+   color: var(--main-color);
+   box-shadow: 0 4px 10px var(--main-color), inset 0 2px 3px var(--main-color);
+   transition: 0.3s;
+    &:hover {
+      transform: translateY(4px);
+      box-shadow: 0 1px 2px var(--main-color);
+      border-bottom: 1px solid #303030;
+    }
+
+}
