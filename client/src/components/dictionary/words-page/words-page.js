@@ -1,27 +1,37 @@
-import createComponent from '../../utils/createComponent';
+import createComponent from '../../../utils/createComponent';
 
-import Words from './words';
-import PaginationButtons from '../pagination/pagination-buttons';
-import wordsPageState from '../../utils/state';
-import Footer from '../footer'
-import WordsPageMenu from './menu';
+import Words from '../words/words';
+import PaginationButtons from '../../pagination/pagination-buttons';
+import wordsPageState from '../../../utils/state';
+import Footer from '../../footer'
+import WordsMenu from '../words-menu/words-menu';
+import WordsHeader from '../words-header/words-header';
 
 
 
 export default class WordsPage extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
-    this.menu = new WordsPageMenu(this.node);
+    this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
   }
 
   renderWords() {
     this.wordsContainer = new createComponent(this.node, 'div', 'words-container')
+    this.header = new WordsHeader(this.wordsContainer.node);
     this.words = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
     this.paginationHandler();
     this.footer = new Footer(this.wordsContainer.node)
-    
+    this.toMenuHandler();
+  }
+
+  toMenuHandler() {
+    this.header.onMenuPage = async() => {
+      this.wordsContainer.destroy();
+      this.menu = new WordsMenu(this.node)
+      this.groupRoutHandler();
+    }
   }
 
   groupRoutHandler() {

@@ -1,9 +1,9 @@
-import '../../styles/components/words.scss';
+import './words.scss';
 
-import createComponent from "../../utils/createComponent";
-import { getWords } from "../../api/wordsApi";
-import Word from "./word";
-import wordsPageState from "../../utils/state";
+import createComponent from "../../../utils/createComponent";
+import { getWords } from "../../../api/wordsApi";
+import Word from '../word/word'
+import wordsPageState from "../../../utils/state";
 
 export default class Words extends createComponent {
   constructor(parentNode) {

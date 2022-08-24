@@ -1,6 +1,6 @@
-import createComponent from "../../utils/createComponent";
-import '../../styles/components/word.scss'
-import {Api} from '../../utils/api'
+import createComponent from "../../../utils/createComponent";
+import './word.scss'
+import {Api} from '../../../utils/api'
 
 export default class Words extends createComponent{
   constructor(parentNode,  wordData) {
@@ -26,27 +26,34 @@ export default class Words extends createComponent{
   render() {
     this.node.innerHTML =  `
     <div class="word-title">
-    <p>${this.word} - ${this.transcription}</p>
-    <button class="audio" data-audio="${this.audio}"></button>
+    <p><span class="word-title__word">${this.word}</span> - ${this.transcription}</p>
+    <button class="audio" data-audio="${this.audio}"><i class="fa fa-volume-up" data-audio="${this.audio}"></i></button>
     </div>
-    <img src=${this.image} alt="${this.word}" class="words-image">
+    <div style="background-image: url('${this.image}')" alt="${this.word}" class="word-image"></div>
     <p class="translate">${this.wordTranslate}</p>
-    <div class="example">
-     <p>${this.textExample}</p>
-     <button class="audio" data-audio="${this.audioExample}"></button>
-     <p class="translate">${this.textExampleTranslate}</p>
+    <div class="word-sentence">
+    <div class="word-sentence__title">
+     <p class="sentence">${this.textExample}</p>
+     <button class="audio" data-audio="${this.audioExample}"><i class="fa fa-volume-up" data-audio="${this.audioExample}"></i></button>
+     </div>
+    
+     <p class="word-sentence__translate">${this.textExampleTranslate}</p>
     </div>
-    <div class="meaning">
-     <p>${this.textMeaning}</p>
-     <button class="audio" data-audio="${this.audioMeaning}"></button>
-     <p>${this.textMeaningTranslate}</p>
+    <div class="word-sentence">
+    <div class="word-sentence__title">
+     <p class="sentence">${this.textMeaning}</p>
+     <button class="audio" data-audio="${this.audioMeaning}"><i class="fa fa-volume-up" data-audio="${this.audioMeaning}"></i></button>
+    </div>
+     <p class="word-sentence__translate">${this.textMeaningTranslate}</p>
     </div>
     `
   }
   setEventListener() {
     this.node.onclick = (event) => {
+      console.log(event.target)
       let target = event.target;
       if(target.dataset.audio) {
+        console.log('click')
         let audio = new Audio();
         audio.src = `${Api.baseUrl}/${target.dataset.audio}`;
         audio.autoplay = true;

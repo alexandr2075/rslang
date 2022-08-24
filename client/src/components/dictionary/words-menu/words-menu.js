@@ -1,9 +1,9 @@
-import createComponent from "../../utils/createComponent";
-import Footer from "../footer";
-import wordsPageState from "../../utils/state";
-import WordsPage from "./words-page";
+import createComponent from "../../../utils/createComponent";
+import './words-menu.scss'
+import Footer from "../../footer";
+import wordsPageState from "../../../utils/state";
 
-export default class WordsPageMenu extends createComponent {
+export default class WordsMenu extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'menu', '');
     this.renderMenu();
@@ -13,9 +13,10 @@ export default class WordsPageMenu extends createComponent {
 
   renderMenu() {
     wordsPageState.levels.forEach((level, index) => {
-      level = new createComponent(this.node, 'div', `${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`)
+      level = new createComponent(this.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`)
       level.node.setAttribute('data-group', index)
-      level.node.style.backgroundColor = wordsPageState.color[index];
+       level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
+       level.node.style.color = wordsPageState.color[index];
     })
   }
 
