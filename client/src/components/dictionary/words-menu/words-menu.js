@@ -1,6 +1,6 @@
 import createComponent from "../../../utils/createComponent";
 import './words-menu.scss'
-import Footer from "../../footer";
+import Footer from "../../footer/footer";
 import wordsPageState from "../../../utils/state";
 
 export default class WordsMenu extends createComponent {

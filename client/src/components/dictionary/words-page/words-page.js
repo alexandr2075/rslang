@@ -3,7 +3,7 @@ import createComponent from '../../../utils/createComponent';
 import Words from '../words/words';
 import PaginationButtons from '../../pagination/pagination-buttons';
 import wordsPageState from '../../../utils/state';
-import Footer from '../../footer'
+import Footer from '../../footer/footer'
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 
