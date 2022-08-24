@@ -1,4 +1,5 @@
-import createComponent from '../../utils/createComponent'
+import createComponent from '../../utils/createComponent';
+import './pagination-buttons.scss';
 
 export default class PaginationButtons extends createComponent {
 
