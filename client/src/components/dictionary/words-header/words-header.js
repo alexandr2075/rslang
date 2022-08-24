@@ -11,9 +11,14 @@ export default class WordsHeader extends createComponent {
 
   setEventListener() {
     this.toMenuBtn.node.onclick = () => {
+      this.updateMainColor();
       this.onMenuPage();
     };
+  }
 
+  updateMainColor() {
+    let root = document.documentElement;
+    root.style.setProperty('--main-color', '#fff')
+  }
 
-}
 }
