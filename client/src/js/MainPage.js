@@ -2,8 +2,8 @@ import '../style/header.scss';
 import '../style/style.scss';
 
 export default function out() {
-  const header = document.getElementById('qwe');
-  header.innerHTML = `<div class="header ">
+  const header = `
+        <div class="header ">
         <div class="wrapper header__wrapper ">
         <div class="header__part">
         <div class="hamburger ">
@@ -47,7 +47,7 @@ export default function out() {
         <li class="anim_eight anim-item navigation__item">Статистика</li></a></ul></nav>
         </div></div>
         <div class="header__auth ">
-        <a href="/authorization">
+        <a href="">
         <button type="button" class="button button_bordered">Вход</button>
         </a>
         </div></div>
@@ -93,4 +93,5 @@ export default function out() {
     </div></div><div class="footer__bottom-block">©2022 RS LANG;
     <a href="https://rs.school/js/">RS School Course.</a></div></div></div>
     </footer>`;
+  return header;
 }

@@ -1,57 +1,55 @@
+import 'normalize.css';
 import './index.css';
-import Api from '../utils/api';
+import createComponent from '../utils/createComponent';
+import { createNewUser } from '../api/usersApi';
+import signInApi from '../api/signInApi';
 
-export default class Auth {
-  constructor() {
-    this.page = `
-    <div class='modal'>
-      <form class='form' id='auth-form'>
-          <div class="email">
-              <input id="email" type="email" required>
-              <label for="email">Email</label>
-          </div>
-          <div class="password">
-              <input id="password" type="password" required>
-              <label for="password">Password</label>
-          </div>
-          <button type="submit" class="sign-in">Sign in</button>
-      </form>
-    </div>
-        `;
+export default class Auth extends createComponent {
+  constructor(parentNode) {
+    super(parentNode, 'div', 'modal');
+    this.renderInnerHTML();
+    Auth.setEventListener();
   }
 
-  static async authWithEmailAndPassword(user) {
-    try {
-      const rawResponse = await fetch(`${Api.baseUrl}/${Api.endpoints.signin}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      const content = await rawResponse.json();
+  renderInnerHTML() {
+    this.node.innerHTML = `
+		<div class='modal__wrapper'>
+			<div class='modal__form'>
+			<span class='reg' data-reg>Регистрация</span><span class='auth' data-auth>Авторизация</span>
+				<form class='form' id='auth-form'>
+				<div class="email">
+					<label for="email">Email</label>
+					<input id="email" type="email" required>
+				</div>
+				<div class="password">
+					<label for="password">Пароль</label>
+					<input id="password" type="password" required>
+				</div>
+				<button type="submit" class="sign-up" data-submit>Submit</button>
+				<p class='message'></p>
+				</form>
+			</div>
+		</div>
+	  `;
+	  }
 
-      console.log(content);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  static setEventListener() {
+    const submit = document.querySelector('.sign-up');
+    submit.addEventListener('click', Auth.authFormHandler);
   }
 
-  static authFormhandler(event) {
+  static authFormHandler(event) {
     event.preventDefault();
 
-    // const email = document.querySelector('#email').value;
-    // const password = document.querySelector('#password').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
 
-    Auth.authWithEmailAndPassword({ email: 'u@mail.ru', password: 'iroeoeoeooo' });
-  }
+    createNewUser({ email, password })
+      .then((data) => localStorage.setItem('idAndEmail', JSON.stringify(data)));
+    signInApi({ email, password })
+      .then((dataToken) => localStorage.setItem('token', JSON.stringify(dataToken)));
 
-  render() {
-    const app = document.querySelector('#app');
-    app.insertAdjacentHTML('beforeend', this.page);
-    document
-      .getElementById('auth-form')
-      .addEventListener('submit', Auth.authFormhandler, { once: true });
+    const message = document.querySelector('.message');
+    message.innerText = 'Вы успешно зарегистрировались.';
   }
 }
