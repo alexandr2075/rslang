@@ -5,9 +5,9 @@
 .pagination-container {
   display: flex;
   justify-content: space-between;
-  width: 100vw;
-  box-shadow: -10px 0 10px var(--main-color);
+  width: 100%;
   padding: 1em;
+  box-shadow: -10px 0 10px var(--main-color);
 }
 
 .pagination-button {
