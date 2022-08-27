@@ -70,7 +70,7 @@ export default class Auth extends createComponent {
   }
 
   authFormHandler(email, password) {
-    this.getId(email, password);
+    Auth.getId(email, password);
     setTimeout(() => {
       this.getToken(email, password);
     }, 2000);

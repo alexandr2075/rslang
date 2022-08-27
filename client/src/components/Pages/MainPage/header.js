@@ -1,13 +1,15 @@
 import createComponent from '../../../utils/createComponent';
 // eslint-disable-next-line import/extensions, import/no-unresolved
+import Auth from '../../../auth/index';
 
 export default class Header extends createComponent {
-    constructor(parentNode){
-super(parentNode, 'header', 'header');
-this.render();
-    }
-    render() {
-this.node.innerHTML = `<div class="header ">
+  constructor(parentNode) {
+    super(parentNode, 'header', 'header');
+    this.render();
+  }
+
+  render() {
+    this.node.innerHTML = `<div class="header ">
 <div class="wrapper header__wrapper ">
 <div class="header__part">
 <div class="hamburger ">
@@ -41,12 +43,12 @@ this.node.innerHTML = `<div class="header ">
 <li class="anim_eight anim-item navigation__item">Статистика</li></a></ul></nav>
 </div></div>
 <div class="header__auth ">
-<a href="/authorization">
-<button onclick = '' type="button" class="button button_bordered">Регестрация</button>
-<button onclick = '' type="button" class="button button_bordered">Вoйти</button>
-</a>
+
+<button type="button" class="button button_bordered button-registr">Регестрация</button>
+<button type="button" class="button button_bordered button-entry">Вoйти</button>
+
 </div></div>
 </div></div>
 `;
-    }
+  }
 }
