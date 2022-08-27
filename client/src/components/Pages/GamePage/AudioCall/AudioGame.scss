@@ -1,0 +1,173 @@
+@font-face {
+    font-family: 'Walter Turncoat';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/walterturncoat/v19/snfys0Gs98ln43n0d-14ULoToe6LZxec.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+/* ------------ simple_clamp ------------- */
+
+@function strip_units($num) {
+    @return $num / ($num * 0 + 1);
+}
+
+// @params (rem, rem, px, px /*optional px*/)
+// @returns clamp(rem, rem + vw, rem)
+@function simple_clamp($minFont, $maxFont, $minWidth, $maxWidth, $pixPerRem: 16px) {
+    $minFontPx: strip_units($minFont) / (1 / $pixPerRem);
+    $maxFontPx: strip_units($maxFont) / (1 / $pixPerRem);
+
+    $slope: ($maxFontPx - $minFontPx) / ($maxWidth - $minWidth);
+    $yOffset: #{($minFontPx - ($slope * $minWidth)) / $pixPerRem}rem;
+
+    // will remove 'yOffset +' if equal to 0
+    @return clamp(#{$minFont, #{if($yOffset=='0rem','', $yOffset'+')} #{$slope * 100}vw, $maxFont});
+}
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 2rem;
+  display: grid;
+  place-items: center;
+  font-family: 'Walter Turncoat', cursive;
+  background-color:black;
+  color:white;
+}
+
+h1,
+h2 {
+  font-family: 'Walter Turncoat', cursive;
+  font-size: simple_clamp(2rem, 2.2rem, 480px, 800px);
+  font-weight: 300;
+  line-height: 130%;
+  opacity: .85;
+  margin-bottom: simple_clamp(2rem, 4rem, 480px, 800px);
+}
+
+p {
+  font-family: 'Walter Turncoat', cursive;
+}
+
+#quiz {
+  width: 90%;
+  max-width: 850px;
+  min-width: 400px;
+  min-height: 600px;
+  padding: 2rem 2rem 4rem;
+  text-align: center;
+  background-image: url("https://assets.codepen.io/3351103/black-board.jpg");
+  background-color: darkslategray;
+  background-size: 100% 100%;
+
+  .question-container {
+    display: none;
+  }
+
+  .intro {
+    display: grid;
+    justify-content: center;
+
+    h1 {
+      min-height: auto;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      min-height: auto;
+      margin-bottom: 3rem;
+      font-size: 2.2rem;
+      font-style: italic;
+      color: palevioletred;
+    }
+  }
+
+  &.intro-hidden {
+
+    .question-container {
+      display: block;
+    }
+
+    .intro {
+      display: none;
+    }
+  }
+
+  .multiple-choice {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    justify-content: space-evenly;
+    grid-row-gap: 2rem;
+  }
+}
+
+
+button {
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem 2rem;
+  color: white;
+  background-image: url('https://assets.codepen.io/3351103/chalk-outline.png');
+  background-color: transparent;
+  background-size: 100% 100%;
+  border: none;
+  font-family: 'Walter Turncoat', cursive;
+  font-size: 1.35rem;
+  line-height: 150%;
+  letter-spacing: .05rem;
+  text-transform: uppercase;
+  user-select: none;
+  cursor: pointer;
+  transition: transform .35s ease, color .35s ease;
+
+  &:hover {
+    color: goldenrod;
+    transform: scale(1.15);
+  }
+
+  &:after {
+    position: absolute;
+    margin: auto;
+    top: 10%;
+    left: 1.5rem;
+    font-size: 1.4rem;
+    color: goldenrod;
+    background-color: transparent;
+  }
+
+  &.choice-a {
+    filter: hue-rotate(280deg);
+  }
+
+  &.choice-b {
+    filter: hue-rotate(10deg);
+  }
+
+  &.choice-c {
+    filter: hue-rotate(130deg);
+  }
+
+  &.choice-d {
+    filter: hue-rotate(180deg);
+  }
+
+  &.choice-a:after {
+    content: 'A.';
+  }
+
+  &.choice-b:after {
+    content: 'B.';
+  }
+
+  &.choice-c:after {
+    content: 'C.';
+  }
+
+  &.choice-d:after {
+    content: 'D.';
+  }
+}
