@@ -1,8 +1,4 @@
+import WordsPage from './src/components/dictionary/words-page/words-page';
 import './style.css';
-import WordsApi from "./src/api/wordsApi";
 
-const app = document.querySelector('#app');
-app.innerText = 'Learnwords';
-
-const words = new WordsApi();
-console.log(words.getWords())
+const words = new WordsPage(app);
