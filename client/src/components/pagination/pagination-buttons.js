@@ -2,7 +2,6 @@ import createComponent from '../../utils/createComponent';
 import './pagination-buttons.scss';
 
 export default class PaginationButtons extends createComponent {
-
   constructor(parentNode) {
     super(parentNode, 'div', 'pagination-container', '');
     this.prevButton = new createComponent(this.node, 'button', 'button pagination-button', 'PREV');

@@ -20,6 +20,9 @@
     ],
     "rules": {
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-        "import/no-cycle": [2, { "maxDepth": 1 }]
+        "import/no-cycle": [2, { "maxDepth": 1 }],
+        "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+        "no-tabs": ["error", { "allowIndentationTabs": true }],
+        "linebreak-style": ["error", "windows"]
     }
 }
