@@ -19,6 +19,7 @@ const Api = {
       filter: 'filter',
     },
   },
-};
+}
 
-export default Api;
+console.log(Api.endpoints.words)
+
