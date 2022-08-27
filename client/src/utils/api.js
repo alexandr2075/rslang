@@ -20,3 +20,5 @@ export const Api = {
     }
   },
 }
+
+console.log(Api.endpoints.words)
