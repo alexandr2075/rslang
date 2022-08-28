@@ -1,5 +1,4 @@
-export default class createComponent {
-
+export default class CreateComponent {
   constructor(parentNode, tagName = '', className = '', content = '') {
     const element = document.createElement(tagName);
     element.className = className;
@@ -10,7 +9,7 @@ export default class createComponent {
     this.node = element;
   }
 
-   destroy() {
+  destroy() {
     this.node.remove();
   }
 }
