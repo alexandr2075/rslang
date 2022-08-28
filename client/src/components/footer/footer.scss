@@ -1,0 +1,26 @@
+:root {
+  --main-color: #fff;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--main-color);
+  background-color: #181818;
+  width: 100vw;
+  padding: 1em;
+  box-shadow: -10px 0 10px var(--main-color);
+}
+
+.developers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 18px;
+  text-shadow: 2px 2px 5px var(--main-color);
+}
+
+a {
+  color: var(--main-color);
+  text-decoration: none;
+}
