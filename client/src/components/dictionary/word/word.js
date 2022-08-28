@@ -1,7 +1,7 @@
 import createComponent from "../../../utils/createComponent";
 import wordsPageState from '../../../utils/state'
 import './word.scss'
-import {Api} from '../../../utils/api'
+import Api from '../../../utils/api'
 
 export default class Words extends createComponent{
   constructor(parentNode,  wordData) {
