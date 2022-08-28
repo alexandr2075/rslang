@@ -1,6 +1,6 @@
 import createComponent from '../../../utils/createComponent';
 // eslint-disable-next-line import/extensions, import/no-unresolved
-import Auth from '../../../auth/index';
+import Auth from '../../../auth/auth';
 
 export default class Header extends createComponent {
   constructor(parentNode) {
@@ -46,6 +46,7 @@ export default class Header extends createComponent {
 
 <button type="button" class="button button_bordered button-registr">Регестрация</button>
 <button type="button" class="button button_bordered button-entry">Вoйти</button>
+<button type="button" class="button button_bordered button-exit" style="display: none">Выйти</button>
 
 </div></div>
 </div></div>
