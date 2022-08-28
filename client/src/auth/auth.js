@@ -1,5 +1,5 @@
 import 'normalize.css';
-import './index.css';
+import './auth.scss';
 import createComponent from '../utils/createComponent';
 import { createNewUser } from '../api/usersApi';
 import signInApi from '../api/signInApi';
@@ -39,13 +39,17 @@ export default class Auth extends createComponent {
     message.innerText = text;
   }
 
-  static getId(email, password) {
+  static switchLoader(item) {
     const loader = document.querySelector('.loader');
-    loader.style.opacity = '1';
+    loader.style.opacity = item;
+  }
+
+  static getId(email, password) {
+    Auth.switchLoader('1');
     createNewUser({ email, password })
       .then((data) => {
         if (data) {
-          loader.style.opacity = '0';
+          Auth.switchLoader('0');
           localStorage.setItem('idAndEmail', JSON.stringify(data));
           Auth.textForUser('Вы успешно зарегистрировались.');
         }
@@ -62,6 +66,12 @@ export default class Auth extends createComponent {
           Auth.textForUser('Успешный вход!');
           setTimeout(() => {
             this.destroy();
+            const reg = document.querySelector('.button-registr');
+            const entry = document.querySelector('.button-entry');
+            const exit = document.querySelector('.button-exit');
+            entry.style.display = 'none';
+            reg.style.display = 'none';
+            exit.style.display = 'block';
           }, 1500);
         }
       }, (err) => {
