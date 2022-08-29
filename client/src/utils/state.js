@@ -11,7 +11,11 @@ const wordsPageState = {
     4: '#ffce72',
     5: '#ff85a3',
   },
-  wordBtn: ['сложные', 'изученные'],
+  wordBtn: {
+    'difficult' : '<i class="fa-solid fa-exclamation" data-panel="difficult"></i>',
+    'learned' : '<i class="fa-solid fa-graduation-cap" data-panel="learned"></i>',
+    'statistic' : '<i class="fa-solid fa-chart-line" data-panel="statistic"></i>',
+  },
 }
 
 
