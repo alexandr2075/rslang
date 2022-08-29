@@ -1,4 +1,4 @@
-import { Api } from "../utils/api";
+import  Api  from "../utils/api";
 
 const getAllUserWords = async (userId, token) => {
   const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}`;
@@ -10,7 +10,7 @@ const getAllUserWords = async (userId, token) => {
       Accept: 'application/json',
     },
   });
-  if (response.status === 402) {
+  if (response.status === 401) {
     throw new Error('Access token is missing or invalid');
   }
   return await response.json();
