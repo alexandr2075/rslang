@@ -52,11 +52,12 @@ export default class Words extends createComponent{
     }
     if(this.user) {
       this.wordBtnBlock = new createComponent(this.node, 'div', 'word__btn-block');
-      wordsPageState.wordBtn.forEach(item => {
-        this.wordBBtnItem = new createComponent(this.wordBtnBlock.node, 'div', 'word-btn');
-        this.wordBBtn = new createComponent(this.wordBBtnItem.node, 'button', 'word-btn');
-      })
-     
+      for(let prop in wordsPageState.wordBtn) {
+        this.wordBBtnItem = new createComponent(this.wordBtnBlock.node, 'div', 'word-btn-item');
+        this.wordBBtn = new createComponent(this.wordBBtnItem.node, 'button', `word-btn ${prop}`);
+        this.wordBBtn.node.innerHTML = wordsPageState.wordBtn[prop];
+        this.wordBBtn.node.setAttribute(`data-panel`, `${prop}`)
+      }
     }
   }
 
@@ -67,6 +68,17 @@ export default class Words extends createComponent{
         let audio = new Audio();
         audio.src = `${Api.baseUrl}/${target.dataset.audio}`;
         audio.autoplay = true;
+      }
+      if(target.dataset.panel) {
+        if(target.dataset.panel === 'difficult') {
+          this.onDifficult();
+        }
+        if(target.dataset.panel === 'learned') {
+          this.onLearned();
+        }
+        if(target.dataset.panel === 'statistic') {
+          this.onStatistic();
+        }
       }
     }
 }
