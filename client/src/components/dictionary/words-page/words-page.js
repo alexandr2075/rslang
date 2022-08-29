@@ -6,6 +6,7 @@ import wordsPageState from '../../../utils/state';
 import Footer from '../../footer/footer'
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
+import UserWords from '../userWords/userWords';
 
 
 
@@ -18,6 +19,15 @@ export default class WordsPage extends createComponent {
     this.translateHandler()
     this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
+  }
+
+  renderUserWords() {
+    this.header.toMenuBtn.node.disabled = false;
+    this.wordsContainer = new createComponent(this.node, 'div', 'words-container')
+    this.words = new UserWords(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.paginationHandler();
+    this.footer = new Footer(this.wordsContainer.node)
   }
 
   renderWords() {
@@ -46,6 +56,10 @@ export default class WordsPage extends createComponent {
   }
 
   groupRoutHandler() {
+    this.menu.onUserWords = async() => {
+      this.menu.destroy();
+      this.renderUserWords();
+    }
     this.menu.onRout = async() => {
       this.menu.destroy()
         this.renderWords()
