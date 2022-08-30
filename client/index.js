@@ -1,10 +1,4 @@
-import './style.css';
-import { getWords } from './src/api/wordsApi';
-import WordsPage from './src/components/dictionary/words-page/words-page';
+import Sprint from './src/js/sprint';
 
-const app = document.querySelector('#app');
-app.innerText = 'Learnwords';
-
-// const words = new WordsApi();
-console.log(getWords());
-const wordsPage = new WordsPage(document.body)
+const app = document.getElementById('app');
+const sprint = new Sprint(app);
