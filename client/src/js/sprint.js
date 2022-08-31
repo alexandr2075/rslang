@@ -1,18 +1,25 @@
 import './sprint.scss';
 import createComponent from '../utils/createComponent';
-import Words from '../components/dictionary/words/words';
 import PaginationButtons from '../components/pagination/pagination-buttons';
 import wordsPageState from '../utils/state';
-import Footer from '../components/footer';
 import { getWords } from '../api/wordsApi';
+import done from '../../assets/done.jpg';
+import falsy from '../../assets/falsy.jpg';
 
 export default class Sprint extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'sprint', '');
     this.screensaver = new createComponent(this.node, 'div', 'screensaver');
     this.container = new createComponent(this.screensaver.node, 'div', 'container');
-    this.startButton = new createComponent(this.container.node, 'button', 'start-button', 'Начать');
-    
+    this.gameDifficultySelection = new createComponent(this.container.node, 'div', 'difficulty-selection');
+    this.difficulty = new createComponent(this.gameDifficultySelection.node, 'p', 'difficulty', 'Выберите сложность игры');
+    wordsPageState.levels.forEach((level, index) => {
+      level = new createComponent(this.gameDifficultySelection.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`);
+      level.node.setAttribute('data-group', index);
+      level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
+      level.node.style.color = wordsPageState.color[index];
+    });
+
     this.setEventListener();
     this.correctAnswers = [];
     this.wrongAnswers = [];
@@ -20,23 +27,44 @@ export default class Sprint extends createComponent {
     this.arrIdWordsWrongAnswerSprint = [];
   }
 
-  renderSprint() {
+  switchToRenderSprint(num) {
+    this.gameDifficultySelection.destroy();
+    this.renderSprint(num);
+  }
+
+  setEventListener() {
+    this.screensaver.node.onclick = (event) => {
+      const { target } = event;
+      if (target.dataset.group === '0') {
+        this.switchToRenderSprint(0);
+      } else if (target.dataset.group === '1') {
+        this.switchToRenderSprint(1);
+      } else if (target.dataset.group === '2') {
+        this.switchToRenderSprint(2);
+      } else if (target.dataset.group === '3') {
+        this.switchToRenderSprint(3);
+      } else if (target.dataset.group === '4') {
+        this.switchToRenderSprint(4);
+      } else if (target.dataset.group === '5') {
+        this.switchToRenderSprint(5);
+      }
+    };
+  }
+
+  renderSprint(group) {
     this.englishWords = new createComponent(this.container.node, 'div', 'english-words');
     this.timer = new createComponent(this.englishWords.node, 'div', 'timer');
-    this.englishWord = new createComponent(this.englishWords.node, 'p', 'english-word');
-    this.wordTranslation = new createComponent(this.englishWords.node, 'p', 'word-translation');
-    this.mark = new createComponent(this.englishWords.node, 'div', 'mark', 'xxx');
-    // this.header = new WordsHeader(this.wordsContainer.node);
-    // this.words = new Words(this.wordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.englishWords.node, 'Неверно', 'Верно');
+    this.englishWord = new createComponent(this.englishWords.node, 'p', 'english-word word-rendering');
+    this.wordTranslation = new createComponent(this.englishWords.node, 'p', 'word-translation word-rendering');
+    this.mark = new createComponent(this.englishWords.node, 'div', 'mark');
+    this.containerPaginationButtons = new createComponent(this.englishWords.node, 'div', 'container-pagination');
+    this.paginationButtons = new PaginationButtons(this.containerPaginationButtons.node, 'Неверно', 'Верно');
     this.timerLogic();
-    this.gameLogic();
-    // this.footer = new Footer(this.wordsContainer.node)
-    // this.toMenuHandler();
+    this.gameLogic(group);
   }
 
   timerLogic() {
-    let counter = 16;
+    let counter = 6;
     const id = setInterval(() => {
       this.timer.node.innerText = counter;
       counter -= 1;
@@ -66,8 +94,8 @@ export default class Sprint extends createComponent {
     }, 1000);
   }
 
-  async getWordArray(n) {
-    const defaultWordsFromTheserver = await getWords(n);
+  async getWordArray(n, group) {
+    const defaultWordsFromTheserver = await getWords(n, group);
     const engl = [];
     const translate = [];
     defaultWordsFromTheserver.forEach((obj) => {
@@ -78,21 +106,22 @@ export default class Sprint extends createComponent {
     return { engl, sortTranslate };
   }
 
-  async gameLogic() {
+  async gameLogic(group) {
     let index = 0;
     let n = 0;
-    let arr = await this.getWordArray(n);
+    console.log(group);
+    let arr = await this.getWordArray(n, group);
     this.englishWord.node.innerText = arr.engl[index].english;
     this.wordTranslation.node.innerText = arr.sortTranslate[index].russian;
 
     this.paginationButtons.onNextPage = async () => {
       if (arr.engl[index].id === arr.sortTranslate[index].id) {
-        this.mark.node.style.color = 'green';
+        this.mark.node.style.backgroundImage = `url(${done})`;
         this.correctAnswers.push(`верно: ${arr.engl[index].english} - ${arr.sortTranslate[index].russian}`);
         this.arrIdWordsCorrectAnswerSprint.push(arr.engl[index].id);
       }
       if (arr.engl[index].id !== arr.sortTranslate[index].id) {
-        this.mark.node.style.color = 'red';
+        this.mark.node.style.backgroundImage = `url(${falsy})`;
         this.wrongAnswers.push(`неверно: ${arr.engl[index].english} - ${arr.sortTranslate[index].russian}`);
         this.arrIdWordsWrongAnswerSprint.push(arr.engl[index].id);
       }
@@ -107,12 +136,12 @@ export default class Sprint extends createComponent {
     };
     this.paginationButtons.onPrevPage = async () => {
       if (arr.engl[index].id !== arr.sortTranslate[index].id) {
-        this.mark.node.style.color = 'green';
+        this.mark.node.style.backgroundImage = `url(${done})`;
         this.correctAnswers.push(`неверно: ${arr.engl[index].english} - ${arr.sortTranslate[index].russian}`);
         this.arrIdWordsCorrectAnswerSprint.push(arr.engl[index].id);
       }
       if (arr.engl[index].id === arr.sortTranslate[index].id) {
-        this.mark.node.style.color = 'red';
+        this.mark.node.style.backgroundImage = `url(${falsy})`;
         this.wrongAnswers.push(`верно: ${arr.engl[index].english} - ${arr.sortTranslate[index].russian}`);
         this.arrIdWordsWrongAnswerSprint.push(arr.engl[index].id);
       }
@@ -130,33 +159,23 @@ export default class Sprint extends createComponent {
   renderResults() {
     this.results = new createComponent(this.container.node, 'div', 'results');
     this.close = new createComponent(this.results.node, 'div', 'close', 'x');
-    this.resultsList = new createComponent(this.results.node, 'ul', 'results-list', 'results');
+    this.titleResults = new createComponent(this.results.node, 'div', 'title-results', 'Результаты');
+    this.containerResultsList = new createComponent(this.results.node, 'div', 'container-results');
+    this.resultsList = new createComponent(this.containerResultsList.node, 'ul', 'results-list');
     this.close.node.onclick = () => {
-      this.results.destroy();
-      this.renderSprint();
+      this.screensaver.destroy();
     };
-
     this.correctAnswers.forEach((level, index) => {
-      level = new createComponent(this.resultsList.node, 'li', `correct-${index}`, `${this.correctAnswers[index]}`);
+      level = new createComponent(this.resultsList.node, 'li', `correct-${index} li-list`, `${this.correctAnswers[index]}`);
       level.node.setAttribute('data-correct', index);
       level.node.style.border = '1px solid green';
       level.node.style.color = 'white';
     });
     this.wrongAnswers.forEach((level, index) => {
-      level = new createComponent(this.resultsList.node, 'li', `wrong-${index}`, `${this.wrongAnswers[index]}`);
+      level = new createComponent(this.resultsList.node, 'li', `wrong-${index} li-list`, `${this.wrongAnswers[index]}`);
       level.node.setAttribute('data-wrong', index);
       level.node.style.border = '1px solid red';
       level.node.style.color = 'white';
     });
-  }
-
-  setEventListener() {
-    this.screensaver.node.onclick = (event) => {
-      const { target } = event;
-      if (target.className === 'start-button') {
-        this.startButton.destroy();
-        this.renderSprint();
-      }
-    };
   }
 }
