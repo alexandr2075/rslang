@@ -1,7 +1,7 @@
-import createComponent from '../../../utils/createComponent';
-import './words-menu.scss';
-import Footer from '../../footer';
-import wordsPageState from '../../../utils/state';
+import createComponent from "../../../utils/createComponent";
+import './words-menu.scss'
+import Footer from "../../footer/footer";
+import wordsPageState from "../../../utils/state";
 
 export default class WordsMenu extends createComponent {
   constructor(parentNode) {
