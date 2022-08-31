@@ -16,7 +16,13 @@ const wordsPageState = {
     'learned' : '<i class="fa-solid fa-graduation-cap" data-panel="learned"></i>',
     'statistic' : '<i class="fa-solid fa-chart-line" data-panel="statistic"></i>',
   },
-}
+  wordsFromSprint: {
+    userId: {
+      correct: {},
+      wrong: {},
+    },
+  },
+};
 
 
 export default wordsPageState;

@@ -1,7 +1,7 @@
-import createComponent from "../../../utils/createComponent";
-import './words-menu.scss'
-import Footer from "../../footer/footer";
-import wordsPageState from "../../../utils/state";
+import createComponent from '../../../utils/createComponent';
+import './words-menu.scss';
+import Footer from '../../footer/footer';
+import wordsPageState from '../../../utils/state';
 
 export default class WordsMenu extends createComponent {
   constructor(parentNode) {
@@ -28,10 +28,9 @@ export default class WordsMenu extends createComponent {
     }
   }
 
-
   setEventListener() {
     this.node.onclick = (event) => {
-      let target = event.target;
+      const { target } = event;
       this.group = target.dataset.group;
       wordsPageState.group = target.dataset.group
       if(wordsPageState.group === '6') {
