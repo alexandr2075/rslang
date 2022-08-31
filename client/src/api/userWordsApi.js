@@ -1,44 +1,29 @@
-import { Api } from '../utils/api';
+import Api from "../utils/api";
+import { fetchWithToken } from "./api-helpers";
 
-const getAllUserWords = async (userId, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}`;
-  const response = await fetch(url, {
+
+function getAllUserWords(userId) {
+  return fetchWithToken(`${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}`, {
     method: 'GET',
     withCredentials: true,
     headers: {
-      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   });
-  if (response.status === 402) {
-    throw new Error('Access token is missing or invalid');
-  }
-  return response.json();
-};
+}
 
-const createUserWord = async (userId, wordId, word, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`;
-  const response = await fetch(url, {
+function createUserWord(userId, wordId, word) {
+  return fetchWithToken(`${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`, {
     method: 'POST',
     withCredentials: true,
     headers: {
-      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(word),
   });
-  if (response.status === 400) {
-    throw new Error('Bad request');
-  }
-  if (response.status === 401) {
-    throw new Error('Access token is missing or invalid');
-  }
-  if (response.status === 417) {
-    throw new Error('word already exist');
-  }
-  return response.json();
-};
+}
 
 const getUserWordById = async (userId, wordId, token) => {
   const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`;
@@ -80,22 +65,16 @@ const updateUserWordById = async (userId, wordId, word, token) => {
   return response.json();
 };
 
-const deleteUserWord = async (userId, wordId, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`;
-  const response = await fetch(url, {
+function deleteUserWord(userId, wordId) {
+  return fetchWithToken(`${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`, {
     method: 'DELETE',
     withCredentials: true,
     headers: {
-      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
   });
-  if (response.status === 401) {
-    throw new Error('Access token is missing or invalid');
-  }
-  return response.json();
-};
+}
 
 export {
   getAllUserWords,

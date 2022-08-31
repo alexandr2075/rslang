@@ -16,7 +16,7 @@ body {
 
 .words { 
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 2em auto 0 auto;
   margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
@@ -24,4 +24,16 @@ body {
   align-content: center;
   gap: 1em;
   overflow: hidden;
+  padding-top: 3em;
+}
+
+.user-words__container {
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 1em;
+  overflow: hidden;
+  padding-bottom: 1em;
 }

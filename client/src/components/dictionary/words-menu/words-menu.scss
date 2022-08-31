@@ -1,17 +1,17 @@
 .menu {
-  max-width: 70%;
+  width: 100%;
   margin: 4em auto 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1em;
-  padding: 2em 1em;
+  padding: 2em 0;
   padding-bottom: 0;
 }
 
 .level-btn {
-  width: 25em;
+  width: 23em;
   border: 2px solid;
   border-radius: 1em;
   background: rgba(0, 0, 0, 0.9);
