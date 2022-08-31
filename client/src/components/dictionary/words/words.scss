@@ -26,3 +26,14 @@ body {
   overflow: hidden;
   padding-top: 3em;
 }
+
+.user-words__container {
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 1em;
+  overflow: hidden;
+  padding-bottom: 1em;
+}
