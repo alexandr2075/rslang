@@ -3,10 +3,10 @@ import wordsPageState from '../../../utils/state'
 import './word.scss'
 import Api from '../../../utils/api'
 
-export default class Words extends createComponent{
-  constructor(parentNode,  wordData) {
+export default class Words extends createComponent {
+  constructor(parentNode, wordData) {
     super(parentNode, 'div', 'word', '');
-    this.word = new createComponent(this.node, 'div', '' );
+    this.word = new createComponent(this.node, 'div', '');
     this.id = wordData.id;
     this.image = `${Api.baseUrl}/${wordData.image}`;
     this.word = wordData.word;
@@ -22,7 +22,6 @@ export default class Words extends createComponent{
     this.render();
     this.setEventListener();
   }
-  
 
   render() {
     if(wordsPageState.showTranslate) {
@@ -73,6 +72,7 @@ export default class Words extends createComponent{
       `
     }
   }
+
   setEventListener() {
     this.node.onclick = (event) => {
       let target = event.target;
@@ -81,6 +81,6 @@ export default class Words extends createComponent{
         audio.src = `${Api.baseUrl}/${target.dataset.audio}`;
         audio.autoplay = true;
       }
-    }
-}
+    };
+  }
 }

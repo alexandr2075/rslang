@@ -10,8 +10,13 @@ const wordsPageState = {
     3: '#f1ff72',
     4: '#ffce72',
     5: '#ff85a3',
-  }
-}
-
+  },
+  wordsFromSprint: {
+    userId: {
+      correct: {},
+      wrong: {},
+    },
+  },
+};
 
 export default wordsPageState;
