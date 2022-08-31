@@ -1,6 +1,7 @@
-import createComponent from '../../../utils/createComponent';
-import './word.scss';
-import { Api } from '../../../utils/api';
+import createComponent from "../../../utils/createComponent";
+import wordsPageState from '../../../utils/state'
+import './word.scss'
+import {Api} from '../../../utils/api'
 
 export default class Words extends createComponent {
   constructor(parentNode, wordData) {
@@ -23,7 +24,8 @@ export default class Words extends createComponent {
   }
 
   render() {
-    this.node.innerHTML = `
+    if(wordsPageState.showTranslate) {
+    this.node.innerHTML =  `
     <div class="word-title">
     <p><span class="word-title__word">${this.word}</span> - ${this.transcription}</p>
     <button class="audio" data-audio="${this.audio}"><i class="fa fa-volume-up" data-audio="${this.audio}"></i></button>
@@ -45,16 +47,37 @@ export default class Words extends createComponent {
     </div>
      <p class="word-sentence__translate">${this.textMeaningTranslate}</p>
     </div>
-    `;
+    `
+    }
+    else {
+      this.node.innerHTML = `
+      <div class="word-title">
+    <p><span class="word-title__word">${this.word}</span> - ${this.transcription}</p>
+    <button class="audio" data-audio="${this.audio}"><i class="fa fa-volume-up" data-audio="${this.audio}"></i></button>
+    </div>
+    <div style="background-image: url('${this.image}')" alt="${this.word}" class="word-image"></div>
+    <div class="word-sentence">
+    <div class="word-sentence__title">
+     <p class="sentence">${this.textExample}</p>
+     <button class="audio" data-audio="${this.audioExample}"><i class="fa fa-volume-up" data-audio="${this.audioExample}"></i></button>
+     </div>
+    
+    </div>
+    <div class="word-sentence">
+    <div class="word-sentence__title">
+     <p class="sentence">${this.textMeaning}</p>
+     <button class="audio" data-audio="${this.audioMeaning}"><i class="fa fa-volume-up" data-audio="${this.audioMeaning}"></i></button>
+    </div>
+    </div>
+      `
+    }
   }
 
   setEventListener() {
     this.node.onclick = (event) => {
-      console.log(event.target);
-      const { target } = event;
-      if (target.dataset.audio) {
-        console.log('click');
-        const audio = new Audio();
+      let target = event.target;
+      if(target.dataset.audio) {
+        let audio = new Audio();
         audio.src = `${Api.baseUrl}/${target.dataset.audio}`;
         audio.autoplay = true;
       }
