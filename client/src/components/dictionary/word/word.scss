@@ -51,19 +51,20 @@
 }
 
 .audio {
-  width: 2.5em;
-  height: 2.5em;
-  border: 2px solid var(--main-color);
+  width: 2em;
+  height: 2em;
+  background: #181818;
+  border: none;
   border-radius: 50%;
-  background-color: transparent;
-  box-shadow: 2px 5px 10px var(--main-color);
-    &:hover {
-      transform: translateY(3px);
-      box-shadow: none;
-    }
-}
-.fa-volume-up {
   color: var(--main-color);
+  box-shadow: 0 4px 10px var(--main-color), inset 0 2px 3px var(--main-color);
+  transition: 0.3s;
+
+  &:hover {
+    transform: translateY(4px);
+    box-shadow: 0 1px 2px var(--main-color);
+    border-bottom: 1px solid #303030;
+  }
 }
 
 .word-image {
@@ -85,52 +86,10 @@
   left: 0;
   bottom: 0;
   background-color: var(--main-color);
+  color: var(--main-color);
   opacity: 0.9;
 }
 
-.word-btn-item {
-  cursor: pointer;
-}
 
-.word-btn {
-  border: none;
-  width: 2em;
-  height: 2em;
-  color: var(--main-color);
-  background-color: rgba(0, 0, 0, 1);
-  padding: 0.5em;
-  position: relative;
-  transform: perspective(1000px) rotate(-30deg) skew(25deg) translate(0,0);
-  box-shadow: -0.5em 0.5em 10px rgba(0, 0, 0, 0.5);
-  transition: 0.5s;
-  cursor: pointer;
-    &::before {
-      display: block;
-      position: absolute;
-      content: "";
-      width: 0.35em;
-      height: 100%;
-      left: -0.35em;
-      top: 0.15em;
-      background-color: rgba(0, 0, 0, 0.6);
-      transform: rotate(0deg) skewY(-45deg)
-    }
-    &::after {
-      display: block;
-      content: "";
-      position: absolute;
-      bottom: -0.3em;
-      left: -0.15em;
-      height: 0.3em;
-      width: 100%;
-      transform: rotate(0deg) skewX(-45deg);
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-    &:hover {
-      transform: perspective(1000px) rotate(-30deg) skew(25deg) translate(0.5em, -0.5em);
-      box-shadow: -1.3em 1.3em 1em rgba(0, 0, 0, 0.5);
-      text-shadow: 0 0 0.2em var(--main-color);
-    }
-}
 
 

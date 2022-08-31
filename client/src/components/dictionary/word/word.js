@@ -2,11 +2,13 @@ import createComponent from "../../../utils/createComponent";
 import wordsPageState from '../../../utils/state'
 import './word.scss'
 import Api from '../../../utils/api'
+import { createUserWord } from "../../../api/userWordsApi";
+import UserButtonsPanel from "../user-buttons-panel/user-buttons-panel";
 
-export default class Words extends createComponent{
+export default class Word extends createComponent{
   constructor(parentNode,  wordData) {
     super(parentNode, 'div', 'word', '');
-    this.word = new createComponent(this.node, 'div', '' );
+    this.wordData = wordData;
     this.id = wordData.id;
     this.image = `${Api.baseUrl}/${wordData.image}`;
     this.word = wordData.word;
@@ -51,13 +53,7 @@ export default class Words extends createComponent{
       this.meaningTranslate = new createComponent(this.wordMeaning.node, 'p', 'word-sentence__translate', `${this.textMeaningTranslate}`)
     }
     if(this.user) {
-      this.wordBtnBlock = new createComponent(this.node, 'div', 'word__btn-block');
-      for(let prop in wordsPageState.wordBtn) {
-        this.wordBBtnItem = new createComponent(this.wordBtnBlock.node, 'div', 'word-btn-item');
-        this.wordBBtn = new createComponent(this.wordBBtnItem.node, 'button', `word-btn ${prop}`);
-        this.wordBBtn.node.innerHTML = wordsPageState.wordBtn[prop];
-        this.wordBBtn.node.setAttribute(`data-panel`, `${prop}`)
-      }
+      this.wordBtnBlock = new UserButtonsPanel(this.node);
     }
   }
 
@@ -69,17 +65,8 @@ export default class Words extends createComponent{
         audio.src = `${Api.baseUrl}/${target.dataset.audio}`;
         audio.autoplay = true;
       }
-      if(target.dataset.panel) {
-        if(target.dataset.panel === 'difficult') {
-          this.onDifficult();
-        }
-        if(target.dataset.panel === 'learned') {
-          this.onLearned();
-        }
-        if(target.dataset.panel === 'statistic') {
-          this.onStatistic();
-        }
-      }
     }
-}
+  }
+
+
 }
