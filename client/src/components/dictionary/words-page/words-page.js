@@ -9,11 +9,16 @@ import WordsHeader from '../words-header/words-header';
 export default class WordsPage extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
+    this.header = new WordsHeader(this.node);
+    this.header.toMenuBtn.node.disabled = true;
+    this.toMenuHandler();
+    this.translateHandler()
     this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
   }
 
   renderWords() {
+<<<<<<< HEAD
     this.wordsContainer = new createComponent(this.node, 'div', 'words-container');
     this.header = new WordsHeader(this.wordsContainer.node);
     this.words = new Words(this.wordsContainer.node);
@@ -25,6 +30,26 @@ export default class WordsPage extends createComponent {
 
   toMenuHandler() {
     this.header.onMenuPage = async () => {
+=======
+    this.header.toMenuBtn.node.disabled = false;
+    this.wordsContainer = new createComponent(this.node, 'div', 'words-container')
+    this.words = new Words(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.paginationHandler();
+    this.footer = new Footer(this.wordsContainer.node)
+  }
+
+  translateHandler() {
+    this.header.onTranslate = async() => {
+    this.header.checkBox.checkBox.node.checked ? wordsPageState.showTranslate = true: wordsPageState.showTranslate = false;
+    if(this.wordsContainer) this.rerenderWords()
+    }
+  }
+
+  toMenuHandler() {
+    this.header.onMenuPage = async() => {
+      this.header.toMenuBtn.node.disabled = true;
+>>>>>>> 3742d26 (feat: add checkbox to app)
       this.wordsContainer.destroy();
       this.menu = new WordsMenu(this.node);
       this.groupRoutHandler();

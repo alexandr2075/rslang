@@ -16,7 +16,6 @@ export default class Words extends createComponent {
   const data = await getWords(wordsPageState.page - 1, wordsPageState.group);
   data.forEach(item => {
     this.word = new Word(this.node, item)
-    console.log(item)
   });
  }
 
