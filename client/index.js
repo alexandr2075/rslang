@@ -4,6 +4,7 @@ import Footer from './src/components/Pages/MainPage/footer';
 import GamePage from './src/components/Pages/GamePage/GamePage';
 import GameLinks from './src/components/Pages/MainPage/linksGames';
 import Auth from './src/auth/auth';
+import Sprint from './src/js/sprint';
 
 const header = new Header(document.body);
 const page = new MainPage(document.body);
@@ -14,6 +15,7 @@ const gameLinks = new GameLinks(document.body);
 const reg = document.querySelector('.button-registr');
 const entry = document.querySelector('.button-entry');
 const exit = document.querySelector('.button-exit');
+const sprint = document.querySelector('.item-dot_sprint');
 reg.onclick = () => { const auth = new Auth(document.body, 'Регистрация'); };
 entry.onclick = () => { const auth = new Auth(document.body, 'Войти'); };
 exit.onclick = () => {
@@ -22,3 +24,4 @@ exit.onclick = () => {
   exit.style.display = 'none';
   localStorage.clear();
 };
+sprint.onclick = () => { const sprint = new Sprint(document.body); };

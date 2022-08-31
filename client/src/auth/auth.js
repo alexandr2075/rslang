@@ -1,4 +1,3 @@
-import 'normalize.css';
 import './auth.scss';
 import createComponent from '../utils/createComponent';
 import { createNewUser } from '../api/usersApi';

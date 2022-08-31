@@ -33,9 +33,10 @@ export default class Header extends createComponent {
 <span class="anim_three">Игры </span>
 <span class="material-icons arrow">expand_more</span>
 <ul role="presentation" class="navigation_submenu">
-<a href="/games/sprint">
+
 <li class="anim_six anim-item navigation_submenu__item">
-<div class="item-dot_sprint"></div><div>Спринт</div></li></a>
+<div class="item-dot_sprint">Спринт</div></li>
+
 <button onclick = 'AudioCall()'>Аудиовызов</button>
 <li class="anim_seven anim-item navigation_submenu__item">
 <div class="item-dot_audio"></div>
