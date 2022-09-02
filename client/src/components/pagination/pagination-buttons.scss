@@ -2,12 +2,17 @@
   --main-color: #fff;
 }
 
-.pagination-container {
-  display: flex;
-  justify-content: space-between;
+.pagination {
   width: 100%;
   padding: 1em;
   box-shadow: -10px 0 10px var(--main-color);
+}
+
+.pagination-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 }
 
 .pagination-button {
