@@ -7,9 +7,10 @@ import CheckBox from '../../checkbox/checkbox';
 export default class WordsHeader extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'header', 'words-header');
-    this.toMenuBtn = new createComponent(this.node, 'button', 'to-menu-btn', 'menu');
-    this.checkBox = new CheckBox(this.node, 'div', 'translate-checkbox');
-    this.checkBox.render('translate-checkbox')
+    this.container = new createComponent(this.node, 'div', 'header-container');
+    this.toMenuBtn = new createComponent(this.container.node, 'button', 'to-menu-btn', 'menu');
+    this.checkBox = new CheckBox(this.container.node, 'div', 'translate-checkbox');
+    this.checkBox.render('translate-checkbox');
     this.setEventListener();
   }
 
