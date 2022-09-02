@@ -11,6 +11,12 @@ import { getAllUserWords } from '../../../api/userWordsApi';
 export default class WordsPage extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
+    document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../../../../assets/images/dictionary-background.jpg')`;
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.position = 'relative';
+    document.body.style.fontSize = '16px';
     this.header = new WordsHeader(this.node);
     this.header.toMenuBtn.node.disabled = true;
     this.toMenuHandler();
@@ -30,7 +36,6 @@ export default class WordsPage extends createComponent {
 
   renderWords() {
     this.wordsContainer = new createComponent(this.node, 'div', 'words-container');
-    this.header = new WordsHeader(this.wordsContainer.node);
     this.words = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
     this.paginationHandler();
@@ -74,6 +79,13 @@ export default class WordsPage extends createComponent {
         this.rerenderWords();
       }
     };
+  }
+
+  translateHandler() {
+    this.header.onTranslate = async() => {
+    this.header.checkBox.checkBox.node.checked ? wordsPageState.showTranslate = true: wordsPageState.showTranslate = false;
+    if(this.wordsContainer) this.rerenderWords()
+    }
   }
 
   rerenderWords() {
