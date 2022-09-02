@@ -13,7 +13,6 @@ export default class WordsMenu extends createComponent {
 
   renderMenu() {
     this.user = JSON.parse(localStorage.getItem('idAndEmail')) || false;
-    console.log(this.user)
     wordsPageState.levels.forEach((level, index) => {
       level = new createComponent(this.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`)
       level.node.setAttribute('data-group', index)
