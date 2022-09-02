@@ -24,12 +24,14 @@ export default class Words extends createComponent {
   userBtnsHandler(wordData) {
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
     this.id = wordData.id;
-    this.word.wordBtnBlock.onDifficult = async() => {
-      const word = {
-      difficulty : 'hard',
-      optional: {wordData}
+    if (this.user) {
+      this.word.wordBtnBlock.onDifficult = async () => {
+        const word = {
+          difficulty: 'hard',
+          optional: { wordData }
+        }
+        createUserWord(this.user.id, this.id, word);
       }
-      createUserWord(this.user.id, this.id, word);
     }
   }
 
