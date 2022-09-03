@@ -1,14 +1,14 @@
-import createComponent from '../../../utils/createComponent';
+import CreateComponent from '../../../utils/createComponent';
 import Words from '../words/words';
 import PaginationButtons from '../../pagination/pagination-buttons';
 import wordsPageState from '../../../utils/state';
-import Footer from '../../footer/footer'
+import Footer from '../../main-page/footer/footer';
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 import UserWords from '../userWords/userWords';
-import { getAllUserWords } from '../../../api/userWordsApi';
+// import { getAllUserWords } from '../../../api/userWordsApi';
 
-export default class WordsPage extends createComponent {
+export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
     document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -27,7 +27,7 @@ export default class WordsPage extends createComponent {
 
   async renderUserWords() {
     this.header.toMenuBtn.node.disabled = false;
-    this.userWordsContainer = new createComponent(this.node, 'div', 'words-container')
+    this.userWordsContainer = new CreateComponent(this.node, 'div', 'words-container')
     this.userWords = new UserWords(this.userWordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.userWordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
@@ -37,7 +37,15 @@ export default class WordsPage extends createComponent {
 
   renderWords() {
     this.header.toMenuBtn.node.disabled = false;
-    this.wordsContainer = new createComponent(this.node, 'div', 'words-container');
+    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
+    this.userWords = new Words(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.paginationHandler();
+    this.footer = new Footer(this.wordsContainer.node);
+  }
+
+  renderWords() {
+    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
     this.words = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
@@ -56,14 +64,14 @@ export default class WordsPage extends createComponent {
   }
 
   groupRoutHandler() {
-    this.menu.onUserWords = async() => {
+    this.menu.onUserWords = async () => {
       this.menu.destroy();
       this.renderUserWords();
-    }
-    this.menu.onRout = async() => {
-      this.menu.destroy()
-        this.renderWords()
-    }
+    };
+    this.menu.onRout = async () => {
+      this.menu.destroy();
+      this.renderWords();
+    };
   }
 
   paginationHandler() {
@@ -104,4 +112,3 @@ export default class WordsPage extends createComponent {
       this.renderUserWords();
   }
 }
-

@@ -1,20 +1,20 @@
 import './sprint.scss';
-import createComponent from '../utils/createComponent';
-import PaginationButtons from '../components/pagination/pagination-buttons';
-import wordsPageState from '../utils/state';
-import { getWords } from '../api/wordsApi';
-import done from '../../assets/done.jpg';
-import falsy from '../../assets/falsy.jpg';
+import CreateComponent from '../../utils/createComponent';
+import PaginationButtons from '../../components/pagination/pagination-buttons';
+import wordsPageState from '../../utils/state';
+import { getWords } from '../../api/wordsApi';
+import done from '../../../assets/images/done.jpg';
+import falsy from '../../../assets/images/falsy.jpg';
 
-export default class Sprint extends createComponent {
+export default class Sprint extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'sprint', '');
-    this.screensaver = new createComponent(this.node, 'div', 'screensaver');
-    this.container = new createComponent(this.screensaver.node, 'div', 'container');
-    this.gameDifficultySelection = new createComponent(this.container.node, 'div', 'difficulty-selection');
-    this.difficulty = new createComponent(this.gameDifficultySelection.node, 'p', 'difficulty', 'Выберите сложность игры');
+    this.screensaver = new CreateComponent(this.node, 'div', 'screensaver');
+    this.container = new CreateComponent(this.screensaver.node, 'div', 'container');
+    this.gameDifficultySelection = new CreateComponent(this.container.node, 'div', 'difficulty-selection');
+    this.difficulty = new CreateComponent(this.gameDifficultySelection.node, 'p', 'difficulty', 'Выберите сложность игры');
     wordsPageState.levels.forEach((level, index) => {
-      level = new createComponent(this.gameDifficultySelection.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`);
+      level = new CreateComponent(this.gameDifficultySelection.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`);
       level.node.setAttribute('data-group', index);
       level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
       level.node.style.color = wordsPageState.color[index];
@@ -52,12 +52,12 @@ export default class Sprint extends createComponent {
   }
 
   renderSprint(group) {
-    this.englishWords = new createComponent(this.container.node, 'div', 'english-words');
-    this.timer = new createComponent(this.englishWords.node, 'div', 'timer');
-    this.englishWord = new createComponent(this.englishWords.node, 'p', 'english-word word-rendering');
-    this.wordTranslation = new createComponent(this.englishWords.node, 'p', 'word-translation word-rendering');
-    this.mark = new createComponent(this.englishWords.node, 'div', 'mark');
-    this.containerPaginationButtons = new createComponent(this.englishWords.node, 'div', 'container-pagination');
+    this.englishWords = new CreateComponent(this.container.node, 'div', 'english-words');
+    this.timer = new CreateComponent(this.englishWords.node, 'div', 'timer');
+    this.englishWord = new CreateComponent(this.englishWords.node, 'p', 'english-word word-rendering');
+    this.wordTranslation = new CreateComponent(this.englishWords.node, 'p', 'word-translation word-rendering');
+    this.mark = new CreateComponent(this.englishWords.node, 'div', 'mark');
+    this.containerPaginationButtons = new CreateComponent(this.englishWords.node, 'div', 'container-pagination');
     this.paginationButtons = new PaginationButtons(this.containerPaginationButtons.node, 'Неверно', 'Верно');
     this.timerLogic();
     this.gameLogic(group);
@@ -157,22 +157,23 @@ export default class Sprint extends createComponent {
   }
 
   renderResults() {
-    this.results = new createComponent(this.container.node, 'div', 'results');
-    this.close = new createComponent(this.results.node, 'div', 'close', 'x');
-    this.titleResults = new createComponent(this.results.node, 'div', 'title-results', 'Результаты');
-    this.containerResultsList = new createComponent(this.results.node, 'div', 'container-results');
-    this.resultsList = new createComponent(this.containerResultsList.node, 'ul', 'results-list');
+    this.results = new CreateComponent(this.container.node, 'div', 'results');
+    this.close = new CreateComponent(this.results.node, 'div', 'close', 'x');
+    this.titleResults = new CreateComponent(this.results.node, 'div', 'title-results', 'Результаты');
+    this.containerResultsList = new CreateComponent(this.results.node, 'div', 'container-results');
+    this.resultsList = new CreateComponent(this.containerResultsList.node, 'ul', 'results-list');
     this.close.node.onclick = () => {
       this.screensaver.destroy();
+      location.hash = ' ';
     };
     this.correctAnswers.forEach((level, index) => {
-      level = new createComponent(this.resultsList.node, 'li', `correct-${index} li-list`, `${this.correctAnswers[index]}`);
+      level = new CreateComponent(this.resultsList.node, 'li', `correct-${index} li-list`, `${this.correctAnswers[index]}`);
       level.node.setAttribute('data-correct', index);
       level.node.style.border = '1px solid green';
       level.node.style.color = 'white';
     });
     this.wrongAnswers.forEach((level, index) => {
-      level = new createComponent(this.resultsList.node, 'li', `wrong-${index} li-list`, `${this.wrongAnswers[index]}`);
+      level = new CreateComponent(this.resultsList.node, 'li', `wrong-${index} li-list`, `${this.wrongAnswers[index]}`);
       level.node.setAttribute('data-wrong', index);
       level.node.style.border = '1px solid red';
       level.node.style.color = 'white';

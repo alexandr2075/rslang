@@ -1,13 +1,20 @@
 :root {
   --main-color: #fff;
 }
+<<<<<<< HEAD:client/src/components/footer/footer.scss
 
 footer {
+=======
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+>>>>>>> develop:client/src/components/main-page/footer/footer.scss
   color: var(--main-color);
   background-color: #181818;
-  width: 100%;
   padding: 1em;
   box-shadow: -10px 0 10px var(--main-color);
+  flex: 0 0 auto;
 }
 
 .footer-container {

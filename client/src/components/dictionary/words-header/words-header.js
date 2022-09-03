@@ -3,6 +3,7 @@ import './words-header.scss';
 import createComponent from '../../../utils/createComponent';
 import wordsPageState from '../../../utils/state';
 import CheckBox from '../../checkbox/checkbox';
+import Burger from '../../burger/burger';
 
 export default class WordsHeader extends createComponent {
   constructor(parentNode) {
@@ -11,6 +12,7 @@ export default class WordsHeader extends createComponent {
     this.toMenuBtn = new createComponent(this.container.node, 'button', 'to-menu-btn', 'меню');
     this.checkBox = new CheckBox(this.container.node, 'div', 'translate-checkbox');
     this.checkBox.render('translate-checkbox');
+    // this.burger = new Burger(this.node);
     this.setEventListener();
   }
 
