@@ -1,10 +1,10 @@
 import './auth.scss';
-import createComponent from '../utils/createComponent';
+import CreateComponent from '../utils/createComponent';
 import { createNewUser } from '../api/usersApi';
 import signInApi from '../api/signInApi';
 import { saveToken } from '../api/api-helpers';
 
-export default class Auth extends createComponent {
+export default class Auth extends CreateComponent {
   constructor(parentNode, title) {
     super(parentNode, 'div', 'modal');
     this.title = title;
@@ -62,16 +62,16 @@ export default class Auth extends createComponent {
     signInApi({ email, password })
       .then((dataToken) => {
         if (dataToken) {
-          saveToken(dataToken)
+          saveToken(dataToken);
           Auth.textForUser('Успешный вход!');
           setTimeout(() => {
             this.destroy();
             const reg = document.querySelector('.button-registr');
             const entry = document.querySelector('.button-entry');
             const exit = document.querySelector('.button-exit');
-            if(entry) entry.style.display = 'none';
-            if(reg) reg.style.display = 'none';
-            if(exit)exit.style.display = 'block';
+            if (entry) entry.style.display = 'none';
+            if (reg) reg.style.display = 'none';
+            if (exit)exit.style.display = 'block';
           }, 1500);
         }
       }, (err) => {

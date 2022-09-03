@@ -1,15 +1,15 @@
 :root {
   --main-color: #fff;
 }
-footer {
+.footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: var(--main-color);
   background-color: #181818;
-  width: 100%;
   padding: 1em;
   box-shadow: -10px 0 10px var(--main-color);
+  flex: 0 0 auto;
 }
 
 .developers {

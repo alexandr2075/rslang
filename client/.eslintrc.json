@@ -23,6 +23,6 @@
         "import/no-cycle": [2, { "maxDepth": 1 }],
         "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
         "no-tabs": ["error", { "allowIndentationTabs": true }],
-        "linebreak-style": ["error", "windows"]
+        "linebreak-style": "off"
     }
 }
