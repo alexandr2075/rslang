@@ -2,7 +2,7 @@ import './words.scss';
 
 import createComponent from "../../../utils/createComponent";
 import { getWords } from "../../../api/wordsApi";
-import { createUserWord } from '../../../api/userWordsApi';
+import { createUserWord, getAllUserWords } from '../../../api/userWordsApi';
 import Word from '../word/word'
 import wordsPageState from "../../../utils/state";
 
@@ -30,7 +30,8 @@ export default class Words extends createComponent {
           difficulty: 'hard',
           optional: { wordData }
         }
-        createUserWord(this.user.id, this.id, word);
+        await createUserWord(this.user.id, this.id, word);
+        console.log(await getAllUserWords(this.user.id).then(res => res.json()))
       }
     }
   }
