@@ -39,18 +39,9 @@ export default class WordsPage extends CreateComponent {
     this.header.toMenuBtn.node.disabled = false;
     this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
     this.userWords = new Words(this.wordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
-    this.paginationHandler();
-    this.footer = new Footer(this.wordsContainer.node);
-  }
-
-  renderWords() {
-    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
-    this.words = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
     this.footer = new Footer(this.wordsContainer.node);
-    this.toMenuHandler();
   }
 
   toMenuHandler() {
