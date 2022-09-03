@@ -41,10 +41,10 @@ export default class Auth {
   static authFormhandler(event) {
     event.preventDefault();
 
-    // const email = document.querySelector('#email').value;
-    // const password = document.querySelector('#password').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
 
-    Auth.authWithEmailAndPassword({ email: 'u@mail.ru', password: 'iroeoeoeooo' });
+    Auth.authWithEmailAndPassword();
   }
 
   render() {
