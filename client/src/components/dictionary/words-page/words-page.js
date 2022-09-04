@@ -2,7 +2,6 @@ import CreateComponent from '../../../utils/createComponent';
 import Words from '../words/words';
 import PaginationButtons from '../../pagination/pagination-buttons';
 import wordsPageState from '../../../utils/state';
-import Footer from '../../main-page/footer/footer';
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 import UserWords from '../userWords/userWords';
@@ -31,7 +30,6 @@ export default class WordsPage extends CreateComponent {
     this.userWords = new UserWords(this.userWordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.userWordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    this.footer = new Footer(this.userWordsContainer.node);
     this.toMenuHandler();
 
   }
@@ -42,7 +40,6 @@ export default class WordsPage extends CreateComponent {
     this.userWords = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    // this.footer = new Footer(this.wordsContainer.node);
     this.toMenuHandler();
   }
 
