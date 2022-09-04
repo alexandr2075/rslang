@@ -25,7 +25,7 @@ export default class WordsPage extends CreateComponent {
     this.userWords = new UserWords(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
     this.paginationHandler();
-    this.footer = new Footer(this.wordsContainer.node);
+    // this.footer = new Footer(this.wordsContainer.node);
   }
 
   renderWords() {
@@ -34,7 +34,7 @@ export default class WordsPage extends CreateComponent {
     this.words = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
     this.paginationHandler();
-    this.footer = new Footer(this.wordsContainer.node);
+    // this.footer = new Footer(this.wordsContainer.node);
     this.toMenuHandler();
   }
 
