@@ -5,7 +5,7 @@ import wordsPageState from '../../../utils/state';
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 import UserWords from '../userWords/userWords';
-// import { getAllUserWords } from '../../../api/userWordsApi';
+import Sprint from '../../../games/sprint/sprint';
 
 export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
@@ -37,12 +37,23 @@ export default class WordsPage extends CreateComponent {
   renderWords() {
     this.header.toMenuBtn.node.disabled = false;
     this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
-    this.userWords = new Words(this.wordsContainer.node);
+    this.words = new Words(this.wordsContainer.node);
+    this.gameContainer = new CreateComponent(this.wordsContainer.node, 'div', 'game-container');
+    this.sprint = new CreateComponent(this.gameContainer.node, 'button', 'game-btn', 'Sprint');
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
     this.toMenuHandler();
+    this.gameHandler();
   }
 
+  gameHandler() {
+    this.gameContainer.node.onclick = (event) => {
+      if(event.target.textContent === 'Sprint'){
+        this.wordsContainer.destroy();
+        this.game = new Sprint(this.node)
+      }
+    }
+  }
   toMenuHandler() {
     this.header.onMenuPage = async () => {
       if(this.wordsContainer)  this.wordsContainer.destroy()
