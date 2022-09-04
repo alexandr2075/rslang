@@ -10,12 +10,12 @@ import Sprint from '../../../games/sprint/sprint';
 export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
-    document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    this.node.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('../../../../assets/images/dictionary-background.jpg')`;
-    document.body.style.backgroundAttachment = 'fixed';
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.position = 'relative';
-    document.body.style.fontSize = '16px';
+    this.node.style.backgroundAttachment = 'fixed';
+    this.node.style.backgroundSize = 'cover';
+    this.node.style.position = 'relative';
+    this.node.style.fontSize = '16px';
     this.header = new WordsHeader(this.node);
     this.header.toMenuBtn.node.disabled = true;
     this.toMenuHandler();
