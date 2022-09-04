@@ -1,4 +1,5 @@
 import './homePageBuilder.scss';
+
 import CreateComponent from '../../utils/createComponent';
 import Footer from './footer/footer';
 import Header from './header/header';
@@ -6,7 +7,7 @@ import Main from './main/main';
 import WordsPage from '../dictionary/words-page/words-page';
 import Sprint from '../../games/sprint/sprint';
 
-class HomePageBuilder extends CreateComponent {
+export default class HomePageBuilder extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'home-page-builder');
     this.header = new Header(this.node);
@@ -59,5 +60,4 @@ class HomePageBuilder extends CreateComponent {
   }
 }
 
-const homePageBuilder = new HomePageBuilder(document.body);
-export default homePageBuilder;
+

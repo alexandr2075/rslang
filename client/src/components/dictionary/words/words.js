@@ -1,10 +1,10 @@
 import './words.scss';
 
-import createComponent from '../../../utils/createComponent';
-import { getWords } from '../../../api/wordsApi';
-import { createUserWord } from '../../../api/userWordsApi';
-import Word from '../word/word';
-import wordsPageState from '../../../utils/state';
+import createComponent from "../../../utils/createComponent";
+import { getWords } from "../../../api/wordsApi";
+import { createUserWord, getAllUserWords } from '../../../api/userWordsApi';
+import Word from '../word/word'
+import wordsPageState from "../../../utils/state";
 
 export default class Words extends createComponent {
   constructor(parentNode) {
@@ -24,14 +24,18 @@ export default class Words extends createComponent {
   userBtnsHandler(wordData) {
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
     this.id = wordData.id;
-    this.word.wordBtnBlock.onDifficult = async () => {
-      const word = {
-        difficulty: 'hard',
-        optional: { wordData },
-      };
-      createUserWord(this.user.id, this.id, word);
-    };
+    if (this.user) {
+      this.word.wordBtnBlock.onDifficult = async () => {
+        const word = {
+          difficulty: 'hard',
+          optional: { wordData }
+        }
+        await createUserWord(this.user.id, this.id, word);
+        console.log(await getAllUserWords(this.user.id).then(res => res.json()))
+      }
+    }
   }
+
 
   updateMainColor() {
     const root = document.documentElement;

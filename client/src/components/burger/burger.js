@@ -33,7 +33,8 @@ export default class Burger extends CreateComponent {
     this.menuItemSprint = new CreateComponent(this.menuList.node, 'li', 'burger burger-sprint', 'Спринт');
     this.menuItemSprint.node.setAttribute('data-menu', 'sprint');
 
-    this.menuItemAboutTeam = new CreateComponent(this.menuList.node, 'li', 'burger burger-about-team', 'О команде'); this.menuItemAboutTeam.node.setAttribute('data-menu', 'about-team');
+    this.menuItemAboutTeam = new CreateComponent(this.menuList.node, 'li', 'burger burger-about-team', 'О команде'); 
+    this.menuItemAboutTeam.node.setAttribute('data-menu', 'about-team');
   }
 
   setEventListener() {
@@ -41,6 +42,7 @@ export default class Burger extends CreateComponent {
       this.menuBurger.node.classList.toggle('active');
     };
     this.menuBurger.node.onclick = (event) => {
+
       this.menuBurger.node.classList.toggle('active');
       switch (event.target.dataset.menu) {
         case 'dictionary':

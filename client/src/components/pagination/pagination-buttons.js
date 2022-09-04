@@ -3,9 +3,10 @@ import './pagination-buttons.scss';
 
 export default class PaginationButtons extends createComponent {
   constructor(parentNode, namePrev, nameNext) {
-    super(parentNode, 'div', 'pagination-container', '');
-    this.prevButton = new createComponent(this.node, 'button', 'button pagination-button', namePrev);
-    this.nextButton = new createComponent(this.node, 'button', 'button pagination-button', nameNext);
+    super(parentNode, 'div', 'pagination', '');
+    this.container = new createComponent (this.node, 'div', 'pagination-container');
+    this.prevButton = new createComponent(this.container.node, 'button', 'button pagination-button', namePrev);
+    this.nextButton = new createComponent(this.container.node, 'button', 'button pagination-button', nameNext);
     this.setEventListener();
   }
 
