@@ -15,9 +15,9 @@ export default class Words extends createComponent {
 
   async wordsRender() {
     const data = await getWords(wordsPageState.page - 1, wordsPageState.group);
-    data.forEach(item => {
+    data.forEach((item) => {
       this.word = new Word(this.node, item);
-      this.userBtnsHandler(item)
+      this.userBtnsHandler(item);
     });
   }
 
@@ -36,12 +36,9 @@ export default class Words extends createComponent {
     }
   }
 
+
   updateMainColor() {
-    let root = document.documentElement;
-    root.style.setProperty('--main-color', wordsPageState.color[wordsPageState.group])
+    const root = document.documentElement;
+    root.style.setProperty('--main-color', wordsPageState.color[wordsPageState.group]);
   }
 }
-
-
-
-

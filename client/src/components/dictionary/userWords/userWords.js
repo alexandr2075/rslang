@@ -2,10 +2,12 @@ import { deleteUserWord, getAllUserWords, updateUserWordById } from "../../../ap
 import createComponent from "../../../utils/createComponent";
 import UserWord from "../userWord/userWord";
 
+
 export default class UserWords extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
+
     this.wordsRender();
   }
 
@@ -35,6 +37,7 @@ export default class UserWords extends createComponent {
       console.log(await getAllUserWords(this.user.id).then(res => res.json()));
       this.rerenderWords();
     }
+
   }
 
   rerenderWords() {

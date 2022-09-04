@@ -33,6 +33,7 @@ export default class WordsPage extends CreateComponent {
     this.paginationHandler();
     this.footer = new Footer(this.userWordsContainer.node);
     this.toMenuHandler();
+
   }
 
   renderWords() {
@@ -41,7 +42,8 @@ export default class WordsPage extends CreateComponent {
     this.userWords = new Words(this.wordsContainer.node);
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    this.footer = new Footer(this.wordsContainer.node);
+    // this.footer = new Footer(this.wordsContainer.node);
+    this.toMenuHandler();
   }
 
   toMenuHandler() {
