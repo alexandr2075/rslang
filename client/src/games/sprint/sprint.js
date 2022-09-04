@@ -111,7 +111,7 @@ export default class Sprint extends CreateComponent {
     let arr = await Sprint.getWordArray(n, group);
     this.englishWord.node.innerText = arr.engl[index].english;
     this.wordTranslation.node.innerText = arr.sortTranslate[index].russian;
-
+// onNextPage-это кнопка "верно"
     this.paginationButtons.onNextPage = async () => {
       if (arr.engl[index].id === arr.sortTranslate[index].id) {
         this.mark.node.style.backgroundImage = `url(${done})`;
@@ -132,6 +132,7 @@ export default class Sprint extends CreateComponent {
       this.englishWord.node.innerText = arr.engl[index].english;
       this.wordTranslation.node.innerText = arr.sortTranslate[index].russian;
     };
+    // onPrevPage-это кнопка "неверно"
     this.paginationButtons.onPrevPage = async () => {
       if (arr.engl[index].id !== arr.sortTranslate[index].id) {
         this.mark.node.style.backgroundImage = `url(${done})`;
