@@ -9,6 +9,7 @@ import wordsPageState from "../../../utils/state";
 export default class Words extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
+    this.learned = [];
     this.wordsRender();
     this.updateMainColor();
   }
@@ -17,15 +18,24 @@ export default class Words extends createComponent {
     this.wordsContainer = new createComponent(this.node, 'div', 'user-words__container')
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
     const userData = await getAllUserWords(this.user.id).then(res => res.json());
-
+    console.log(this.learned)
     const data = await getWords(wordsPageState.page - 1, wordsPageState.group);
     data.forEach((item) => {
       this.word = new Word(this.wordsContainer.node, item);
       userData.forEach(word => {
         if (word.wordId === this.word.id && word.difficulty === 'hard') {
-          const btn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
-          btn.classList.add('active');
-          console.log(btn);
+          const difficulBtn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
+          difficulBtn.classList.add('active');
+          console.log(difficulBtn);
+        }
+        if(this.learned.length) {
+          this.learned.forEach(id => {
+            if(id === this.word.id) {
+              const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
+              learnedBtn.classList.add('active');
+              console.log(learnedBtn);
+            }
+          })
         }
       })
       this.userBtnsHandler(item);
@@ -64,6 +74,27 @@ export default class Words extends createComponent {
           await createUserWord(this.user.id, this.id, word);
           this.rerenderWords();
         }
+      }
+      this.word.wordBtnBlock.onLearned = async() => {
+        this.id = wordData.id;
+        if(!this.learned.length) {
+          this.learned.push(this.id);
+          console.log(this.learned);
+          this.rerenderWords();
+        } else {
+          this.learned.forEach((item,index) => {
+            if(item === this.id) {
+              this.learned.splice(index, 1)
+              console.log(this.learned)
+              this.rerenderWords();
+            }
+            this.learned.push(this.id);
+            console.log(this.learned)
+            this.rerenderWords();
+          })
+          
+        }
+        
       }
     }
   }
