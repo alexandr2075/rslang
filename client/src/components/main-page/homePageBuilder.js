@@ -59,5 +59,3 @@ export default class HomePageBuilder extends CreateComponent {
     };
   }
 }
-
-
