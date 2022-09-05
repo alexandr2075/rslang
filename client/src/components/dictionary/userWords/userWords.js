@@ -8,7 +8,7 @@ export default class UserWords extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
-    this.learned = JSON.parse(localStorage.getItem('learned')) || [];
+    this.learned = new Set(JSON.parse(localStorage.getItem('learned'))) || [];
     this.wordsRender();
   }
 
@@ -19,18 +19,19 @@ export default class UserWords extends createComponent {
       const newData = data.filter(item => item.difficulty === 'hard');
       newData.forEach(item => {
         this.word = new UserWord(this.userWordsContainer.node, item.optional.wordData, item.id);
+
         const btn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
-          btn.classList.add('active');
-          btn.style.color = '#ffffff';
-          if(this.learned.length) {
-            this.learned.forEach(id => {
-              if(id === this.word.id) {
-                const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
-                learnedBtn.classList.add('active');
-                learnedBtn.style.color = '#ffffff';;
-              }
-            })
-          }
+        btn.classList.add('active');
+        btn.style.color = '#ffffff';
+        if ([...this.learned].length) {
+          [...this.learned].forEach(id => {
+            if (id === this.word.id) {
+              const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
+              learnedBtn.classList.add('active');
+              learnedBtn.style.color = '#ffffff';;
+            }
+          })
+        }
         this.userBtnsHandler(item);
       })
     }
@@ -48,31 +49,18 @@ export default class UserWords extends createComponent {
     }
     this.word.wordBtnBlock.onStatistics = async () => {
       this.userWordsContainer.destroy();
-        this.statistic = new Statistics(this.node);
+      this.statistic = new Statistics(this.node);
     }
-    this.word.wordBtnBlock.onLearned = async() => {
+    this.word.wordBtnBlock.onLearned = async () => {
       this.id = wordData.id;
-      if(!this.learned.length) {
-        this.learned.push(this.id);
-        localStorage.setItem('learned', JSON.stringify(this.learned));
-        this.rerenderWords();
-      } else {
-        this.learned.forEach((item,index) => {
-          if(item === this.id) {
-            this.learned.splice(index, 1)
-            localStorage.setItem('learned', JSON.stringify(this.learned));
-            this.rerenderWords();
-          }
-          this.learned.push(this.id);
-          localStorage.setItem('learned', JSON.stringify(this.learned));
-          this.rerenderWords();
-        })
-        
-      }
-      
+      this.learned.has(this.id) ? this.learned.delete(this.id) : this.learned.add(this.id);
+      localStorage.setItem('learned', JSON.stringify([...this.learned]));
+      this.rerenderWords();
     }
 
   }
+
+
 
   rerenderWords() {
     this.userWordsContainer.destroy();

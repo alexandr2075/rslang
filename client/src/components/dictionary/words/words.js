@@ -10,7 +10,7 @@ import Statistics from '../../statistics/statistics';
 export default class Words extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
-    this.learned = JSON.parse(localStorage.getItem('learned'))|| [];
+    this.learned = new Set(JSON.parse(localStorage.getItem('learned'))) || [];
     this.wordsRender();
     this.updateMainColor();
   }
@@ -29,9 +29,9 @@ export default class Words extends createComponent {
           difficulBtn.classList.add('active');
           difficulBtn.style.color = '#ffffff'
         }
-        if(this.learned.length) {
-          this.learned.forEach(id => {
-            if(id === this.word.id) {
+        if ([...this.learned].length) {
+          [...this.learned].forEach(id => {
+            if (id === this.word.id) {
               const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
               learnedBtn.classList.add('active');
               learnedBtn.style.color = '#ffffff';
@@ -39,7 +39,7 @@ export default class Words extends createComponent {
           })
         }
       })
-    this.userBtnsHandler(item);
+      this.userBtnsHandler(item);
     });
   }
 
@@ -67,33 +67,20 @@ export default class Words extends createComponent {
             }
           }
         })
-        if(userData.every(item => item.wordId !== this.id)) {
+        if (userData.every(item => item.wordId !== this.id)) {
           const word = {
             difficulty: 'hard',
-            optional: {wordData}
+            optional: { wordData }
           }
           await createUserWord(this.user.id, this.id, word);
           this.rerenderWords();
         }
       }
-      this.word.wordBtnBlock.onLearned = async() => {
+      this.word.wordBtnBlock.onLearned = async () => {
         this.id = wordData.id;
-        if(!this.learned.length) {
-          this.learned.push(this.id);
-          localStorage.setItem('learned', JSON.stringify(this.learned));
-          this.rerenderWords();
-        } else {
-          this.learned.forEach((item,index) => {
-            if(item === this.id) {
-              this.learned.splice(index, 1)
-              localStorage.setItem('learned', JSON.stringify(this.learned));
-              this.rerenderWords();
-            }
-            this.learned.push(this.id);
-            localStorage.setItem('learned', JSON.stringify(this.learned));
-            this.rerenderWords();
-          })
-        }
+        this.learned.has(this.id) ? this.learned.delete(this.id) : this.learned.add(this.id);
+        localStorage.setItem('learned', JSON.stringify([...this.learned]));
+        this.rerenderWords();
       }
 
       this.word.wordBtnBlock.onStatistics = async () => {
