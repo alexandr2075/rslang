@@ -1,4 +1,4 @@
 import 'normalize.css/';
-import homePageBuilder from './src/components/main-page/homePageBuilder';
+import HomePageBuilder from './src/components/main-page/homePageBuilder';
 
-homePageBuilder();
+const homePageBuilder = new HomePageBuilder(document.body);
