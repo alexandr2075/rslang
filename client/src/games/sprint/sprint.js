@@ -5,6 +5,7 @@ import wordsPageState from '../../utils/state';
 import { getWords } from '../../api/wordsApi';
 import done from '../../../assets/images/done.jpg';
 import falsy from '../../../assets/images/falsy.jpg';
+import { upsertStatistics } from '../../api/statisticApi';
 
 export default class Sprint extends CreateComponent {
   constructor(parentNode) {
@@ -81,6 +82,7 @@ export default class Sprint extends CreateComponent {
             correct[idWord] = 1;
           }
         });
+
         const { wrong } = wordsPageState.wordsFromSprint.userId;
         this.arrIdWordsWrongAnswerSprint.forEach((idWord) => {
           if (Object.prototype.hasOwnProperty.call(wrong, idWord)) {
@@ -88,6 +90,14 @@ export default class Sprint extends CreateComponent {
           } else {
             wrong[idWord] = 1;
           }
+        });
+
+        upsertStatistics(JSON.parse(localStorage.token).userId, {
+          learnedWords: 20,
+          optional: {
+            correct,
+            wrong,
+          },
         });
       }
     }, 1000);
@@ -111,7 +121,7 @@ export default class Sprint extends CreateComponent {
     let arr = await Sprint.getWordArray(n, group);
     this.englishWord.node.innerText = arr.engl[index].english;
     this.wordTranslation.node.innerText = arr.sortTranslate[index].russian;
-// onNextPage-это кнопка "верно"
+    // onNextPage-это кнопка "верно"
     this.paginationButtons.onNextPage = async () => {
       if (arr.engl[index].id === arr.sortTranslate[index].id) {
         this.mark.node.style.backgroundImage = `url(${done})`;
