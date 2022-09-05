@@ -1,0 +1,38 @@
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 100vh;
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+	url('../../../../assets/images/main-background.jpg');
+	background-attachment: fixed;
+	background-size: cover;
+	position: relative;
+	font-size: 16px;
+  }
+
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content:center;
+	align-items: center;
+	flex: 1 0 auto;
+	
+  }
+.main-title {
+	font-size: 70px;
+	font-weight: 600;
+	background-image: conic-gradient(#ffce72, #ff85a3, #73fd67, #a867fd);
+	color: transparent;
+	background-clip: text;
+	-webkit-background-clip: text;
+}
+.app-description {
+	max-width: 80%;
+	text-align: center;
+	background-image: linear-gradient(#ffce72, #ff85a3, #73fd67, #a867fd);
+	color: transparent;
+	background-clip: text;
+	-webkit-background-clip: text;
+}
+ 

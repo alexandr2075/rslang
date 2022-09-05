@@ -1,0 +1,51 @@
+.strips {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
+	margin-top: .45em;
+	cursor: pointer;
+}
+.strip {
+	width: 30px;
+	height: 2px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	transition: all 0.5s;
+	
+}
+.strip:nth-of-type(2) {
+	top: calc(50% - 8px);
+}
+.strip:nth-of-type(3) {
+	top: calc(50% + 8px);
+}
+.drop-down-menu {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 220px;
+	height: 100%;
+	padding: 2em 1em;
+	border: 1px solid var(--main-color);
+	border-radius: 1em;
+	box-shadow: 0 0 15px var(--main-color);
+	background-color: rgba(0,0,0,0.95);
+	color: #fff;
+	font-size: 24px;
+	transform: translateX(270px);
+	transition: transform 0.5s; 
+}
+.drop-down-menu.active {
+	transform: translateX(0px);
+}
+.drop-down-menu li {
+	list-style-type: none;
+	font-size: 1.2em;
+	padding: .2em;
+	cursor: pointer;
+}
