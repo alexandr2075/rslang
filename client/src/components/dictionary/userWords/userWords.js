@@ -1,5 +1,6 @@
 import { deleteUserWord, getAllUserWords, updateUserWordById } from "../../../api/userWordsApi";
 import createComponent from "../../../utils/createComponent";
+import Statistics from "../../statistics/statistics";
 import UserWord from "../userWord/userWord";
 
 
@@ -34,6 +35,31 @@ export default class UserWords extends createComponent {
     this.word.wordBtnBlock.onDifficult = async () => {
       await updateUserWordById(this.user.id, this.wordId, word);
       this.rerenderWords();
+    }
+    this.word.wordBtnBlock.onStatistics = async () => {
+      this.userWordsContainer.destroy();
+        this.statistic = new Statistics(this.node);
+    }
+    this.word.wordBtnBlock.onLearned = async() => {
+      this.id = wordData.id;
+      if(!this.learned.length) {
+        this.learned.push(this.id);
+        console.log(this.learned);
+        this.rerenderWords();
+      } else {
+        this.learned.forEach((item,index) => {
+          if(item === this.id) {
+            this.learned.splice(index, 1)
+            console.log(this.learned)
+            this.rerenderWords();
+          }
+          this.learned.push(this.id);
+          console.log(this.learned)
+          this.rerenderWords();
+        })
+        
+      }
+      
     }
 
   }

@@ -5,6 +5,7 @@ import { getWords } from "../../../api/wordsApi";
 import { createUserWord, getAllUserWords, updateUserWordById } from '../../../api/userWordsApi';
 import Word from '../word/word'
 import wordsPageState from "../../../utils/state";
+import Statistics from '../../statistics/statistics';
 
 export default class Words extends createComponent {
   constructor(parentNode) {
@@ -38,7 +39,7 @@ export default class Words extends createComponent {
           })
         }
       })
-      this.userBtnsHandler(item);
+    this.userBtnsHandler(item);
     });
   }
 
@@ -95,6 +96,11 @@ export default class Words extends createComponent {
           
         }
         
+      }
+
+      this.word.wordBtnBlock.onStatistics = async () => {
+        this.wordsContainer.destroy();
+        this.statistic = new Statistics(this.node);
       }
     }
   }
