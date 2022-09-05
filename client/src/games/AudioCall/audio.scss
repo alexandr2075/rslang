@@ -17,14 +17,6 @@
 	padding: 1em 2em;
 	box-shadow: 0px 10px 15px;
 }
-.english-words {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	gap: 1em;
-	padding: 1em 2em;
-}
 .timer {
 	align-self: flex-start;
 	font-size: 1.5em;
@@ -36,14 +28,11 @@
 	letter-spacing: .1em;
 	margin: .5em 0;
 }
-.mark {
-	width: 20px;
-	height: 20px;
-	background-size: cover;
-	margin: 1em 0;
-}
-.container-pagination {
-	width: 300px;
+.translation-buttons {
+	width: 400px;
+	margin-top: 150px;
+	margin-left: auto;
+    margin-right: auto;
 }
 .difficulty-selection {
 	display: flex;
@@ -106,3 +95,38 @@
 	color: white;
 	cursor: pointer;
 }
+.audio-button {
+	line-height: 40px;
+	width: 100px;
+	height: 40px;
+	margin-top: 80px;
+	margin-left: auto;
+    margin-right: auto;
+	display: block;
+	border: none;
+	border-radius: 8px;
+	color: var(--main-color);
+	box-shadow: 0 4px 10px var(--main-color), inset 0 2px 3px var(--main-color);
+	transition: 0.3s;
+	 &:hover {
+	   transform: translateY(4px);
+	   box-shadow: 0 1px 2px var(--main-color);
+	   border-bottom: 1px solid #303030;
+	 }
+  }
+  .button-game {
+	line-height: 40px;
+	width: 100px;
+	height: 40px;
+	background: white;
+	border: none;
+	border-radius: 8px;
+	color: var(--main-color);
+	box-shadow: 0 4px 10px var(--main-color), inset 0 2px 3px var(--main-color);
+	transition: 0.3s;
+	 &:hover {
+	   transform: translateY(4px);
+	   box-shadow: 0 1px 2px var(--main-color);
+	   border-bottom: 1px solid #303030;
+	 }
+  }

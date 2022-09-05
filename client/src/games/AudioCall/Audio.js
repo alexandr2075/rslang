@@ -4,6 +4,7 @@ import Api from "../../utils/api";
 import wordsPageState from "../../utils/state";
 import { getWords } from "../../api/wordsApi";
 import './audio.scss';
+import '../../../assets/audio/correct.mp3'
 export default class AudioGame extends CreateComponent {
     constructor(parentNode) {
         super(parentNode, 'div', 'sprint', '');
@@ -17,12 +18,13 @@ export default class AudioGame extends CreateComponent {
           level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
           level.node.style.color = wordsPageState.color[index];
         });
-    
-        this.setEventListener();
+         this.wright=0;
+        this.error=0;
         this.correctAnswers = [];
         this.wrongAnswers = [];
         this.arrIdWordsCorrectAnswerSprint = [];
         this.arrIdWordsWrongAnswerSprint = [];
+        this.setEventListener();
         this.getWordArray();
     }
     
@@ -43,27 +45,23 @@ export default class AudioGame extends CreateComponent {
             this.switchToRenderAudio(5);
           }
         };
-this.containerTranslationButtons.node.onclick = (event) => {
-this.onCheck(event.target.dataset.id);
-}
-
       }
       switchToRenderAudio(num) {
         this.gameDifficultySelection.destroy();
-        this.renderSprint(num);
+        this.renderAudio(num);
       }
-    async  renderSprint(group) {
-        const data = await getWords(wordsPageState.page - 1, group);
+    async  renderAudio(group) {
         this.ContainerGame = new CreateComponent (this.container.node, 'div')
+        this.timer = new CreateComponent(this.ContainerGame.node, 'div', 'timer');
         this.audioBtn = new CreateComponent(this.ContainerGame.node, 'button' , 'audio-button');
         this.audioBtn.node.innerHTML = `<i class="fa fa-volume-up" data-audio="${this.audio}"></i>`;
-        this.timer = new CreateComponent(this.ContainerGame.node, 'div', 'timer');
         this.wordTranslation = new CreateComponent(this.ContainerGame.node, 'p', 'word-translation word-rendering');
-        this.mark = new CreateComponent(this.ContainerGame.node, 'div', 'mark');
         this.containerTranslationButtons = new CreateComponent(this.ContainerGame.node, 'div', 'translation-buttons');
-     this.setEventListener();
-        // this.timerLogic();
-        this.gameLogic();
+        this.containerTranslationButtons.node.onclick = (event) => {
+          this.onCheck(event.target.dataset.id);
+          }
+        this.timerLogic();
+        this.gameLogic(group);
       }
   
     async getWordArray(n=0, group=0) {
@@ -81,7 +79,6 @@ this.onCheck(event.target.dataset.id);
     async gameLogic(group) {
       let index = Math.round(0 + Math.random() * 20);
       let n = 0;
-      console.log(group);
       let arr = await this.getWordArray(n, group);
       let audio = new Audio();
       audio.src = `${Api.baseUrl}/${arr.audio[index].audio}`;
@@ -93,25 +90,74 @@ this.onCheck(event.target.dataset.id);
       translateWords = arr.translate.slice(index - 4, index)
     }
     const sortArray = translateWords.sort(() => Math.random() - 0.5);
-    console.log('translate', translateWords);
     let audioWord = arr.audio[index];
     sortArray.forEach((item)=>{
 const button = new CreateComponent(this.containerTranslationButtons.node, 'button', 'button-game', `${item.russian}`);
 button.node.setAttribute('data-id',`${item.id}`)
     })
+   
   this.onCheck= async (data) => {
-    if(data == audioWord.id){
-console.log('Ахуенчик');
+    if(data === audioWord.id){
+      this.wright++;
 this.rerenderGame() 
     } else {
-    console.log ('Хуйня');
+      this.error++;
     this.rerenderGame() 
     }
   }
+  this.containerTranslationButtons = async () => {
+    if (wright) { 
+      this.correctAnswers.push(`верно: ${arr.audio[index].audio} - ${arr.sortArray[index].russian}`);
+      this.arrIdWordsCorrectAnswerSprint.push(arr.audio[index].id);
+    }
+    if (error) {
+      this.wrongAnswers.push(`неверно: ${arr.audio[index].english} - ${arr.sortArray[index].russian}`);
+      this.arrIdWordsWrongAnswerSprint.push(arr.audio[index].id);
+    }
+    index += 1;
+    if (index > 19) {
+      n += 1;
+      arr = await this.getWordArray(n);
+      index = 0;
+    }
+    this.ContainerGame.node.innerText = arr.audio[index].audio;
+    this.wordTranslation.node.innerText = arr.sortArray[index].russian;
+  };
     }
     rerenderGame(){
       this.ContainerGame.destroy();
-      this.renderSprint();
+      this.renderAudio();
+    }
+    timerLogic() {
+      let counter = 60;
+      const id = setInterval(() => {
+        this.timer.node.innerText = counter;
+        counter -= 1;
+        if (counter === 0) {
+          clearInterval(id);
+          this.ContainerGame.destroy();
+          this.renderResults();
+          // TODO: поменять userId на localStorage.getItem...
+          const { correct } = wordsPageState.wordsFromSprint.userId;
+          this.arrIdWordsCorrectAnswerSprint.forEach((idWord) => {
+            if (Object.prototype.hasOwnProperty.call(correct, idWord)) {
+              correct[idWord] += 1;
+            } else {
+              correct[idWord] = 1;
+            }
+          });
+  
+          const { wrong } = wordsPageState.wordsFromSprint.userId;
+          this.arrIdWordsWrongAnswerSprint.forEach((idWord) => {
+            if (Object.prototype.hasOwnProperty.call(wrong, idWord)) {
+              wrong[idWord] += 1;
+            } else {
+              wrong[idWord] = 1;
+            }
+          });
+  
+        }
+      }, 1000);
     }
     renderResults() {
       this.results = new CreateComponent(this.container.node, 'div', 'results');
@@ -120,6 +166,8 @@ this.rerenderGame()
       this.containerResultsList = new CreateComponent(this.results.node, 'div', 'container-results');
       this.resultsList = new CreateComponent(this.containerResultsList.node, 'ul', 'results-list');
       this.close.node.onclick = () => {
+        this.wright= 0;
+        this.error = 0;
         this.screensaver.destroy();
         location.hash = ' ';
       };
@@ -135,5 +183,17 @@ this.rerenderGame()
         level.node.style.border = '1px solid red';
         level.node.style.color = 'white';
       });
+      this.close.node.onclick = () => {
+        this.container.destroy();
+        this.container = new CreateComponent(this.screensaver.node, 'div', 'container');
+        this.gameDifficultySelection = new CreateComponent(this.container.node, 'div', 'difficulty-selection');
+        this.difficulty = new CreateComponent(this.gameDifficultySelection.node, 'p', 'difficulty', 'Выберите сложность игры');
+        wordsPageState.levels.forEach((level, index) => {
+          level = new CreateComponent(this.gameDifficultySelection.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`);
+          level.node.setAttribute('data-group', index);
+          level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
+          level.node.style.color = wordsPageState.color[index];
+        });
+      };
     }
 }
