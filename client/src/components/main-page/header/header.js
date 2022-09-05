@@ -11,7 +11,7 @@ export default class Header extends CreateComponent {
     this.exit = new CreateComponent(this.node, 'button', 'button-exit header-btn', 'Выйти');
     this.entry = new CreateComponent(this.node, 'button', 'button-entry header-btn', 'Войти');
     this.reg = new CreateComponent(this.node, 'button', 'button-registr header-btn', 'Регистрация');
-    this.burger = new Burger(this.node);
+    this.burger = new Burger(this.node, 'div');
     this.setEventListener();
   }
 

@@ -11,28 +11,36 @@ import UserWords from '../userWords/userWords';
 export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
+    document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../../../../assets/images/dictionary-background.jpg')`;
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.position = 'relative';
+    document.body.style.fontSize = '16px';
     this.header = new WordsHeader(this.node);
     this.header.toMenuBtn.node.disabled = true;
     this.toMenuHandler();
-    // this.translateHandler()
+    this.translateHandler();
     this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
   }
 
   async renderUserWords() {
     this.header.toMenuBtn.node.disabled = false;
-    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
-    this.userWords = new UserWords(this.wordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.userWordsContainer = new CreateComponent(this.node, 'div', 'words-container')
+    this.userWords = new UserWords(this.userWordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.userWordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    // this.footer = new Footer(this.wordsContainer.node);
+    this.footer = new Footer(this.userWordsContainer.node);
+    this.toMenuHandler();
+
   }
 
   renderWords() {
+    this.header.toMenuBtn.node.disabled = false;
     this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
-    this.header = new WordsHeader(this.wordsContainer.node);
-    this.words = new Words(this.wordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.userWords = new Words(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
     // this.footer = new Footer(this.wordsContainer.node);
     this.toMenuHandler();
@@ -40,9 +48,11 @@ export default class WordsPage extends CreateComponent {
 
   toMenuHandler() {
     this.header.onMenuPage = async () => {
-      this.wordsContainer.destroy();
+      if(this.wordsContainer)  this.wordsContainer.destroy()
+      if(this.userWordsContainer) this.userWordsContainer.destroy();
       this.menu = new WordsMenu(this.node);
       this.groupRoutHandler();
+      this.header.toMenuBtn.node.disabled = true;
     };
   }
 
@@ -76,15 +86,22 @@ export default class WordsPage extends CreateComponent {
     };
   }
 
+  translateHandler() {
+    this.header.onTranslate = async() => {
+    this.header.checkBox.checkBox.node.checked ? wordsPageState.showTranslate = true: wordsPageState.showTranslate = false;
+    if(this.wordsContainer)  this.rerenderWords()
+    if(this.userWordsContainer) this.rerenderUserWords();
+    
+    }
+  }
+
   rerenderWords() {
     this.wordsContainer.destroy();
     this.renderWords();
   }
 
   rerenderUserWords() {
-    this.UserWords.onDelete = async () => {
-      this.wordsContainer.destroy();
+      this.userWordsContainer.destroy();
       this.renderUserWords();
-    };
   }
 }
