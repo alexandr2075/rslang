@@ -6,6 +6,7 @@ import Header from './header/header';
 import Main from './main/main';
 import WordsPage from '../dictionary/words-page/words-page';
 import Sprint from '../../games/sprint/sprint';
+import Statistics from '../statistics/statistics';
 
 export default class HomePageBuilder extends CreateComponent {
   constructor(parentNode) {
@@ -33,12 +34,7 @@ export default class HomePageBuilder extends CreateComponent {
     this.header.burger.onStat = async () => {
       this.container.destroy();
       this.container = new CreateComponent(this.node, 'div', 'common-container');
-      this.stat = new CreateComponent(
-        this.container.node,
-        'div',
-	    'stat',
-        'Statistics',
-      );
+      this.stat = new Statistics(this.container.node);
       this.footer = new Footer(this.container.node);
     };
     this.header.burger.onAudioCall = async () => {
