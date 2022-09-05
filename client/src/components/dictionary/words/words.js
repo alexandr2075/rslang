@@ -10,7 +10,7 @@ import Statistics from '../../statistics/statistics';
 export default class Words extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
-    this.learned = [];
+    this.learned = JSON.parse(localStorage.getItem('learned'))|| [];
     this.wordsRender();
     this.updateMainColor();
   }
@@ -27,14 +27,14 @@ export default class Words extends createComponent {
         if (word.wordId === this.word.id && word.difficulty === 'hard') {
           const difficulBtn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
           difficulBtn.classList.add('active');
-          console.log(difficulBtn);
+          difficulBtn.style.color = '#ffffff'
         }
         if(this.learned.length) {
           this.learned.forEach(id => {
             if(id === this.word.id) {
               const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
               learnedBtn.classList.add('active');
-              console.log(learnedBtn);
+              learnedBtn.style.color = '#ffffff';
             }
           })
         }
@@ -80,22 +80,20 @@ export default class Words extends createComponent {
         this.id = wordData.id;
         if(!this.learned.length) {
           this.learned.push(this.id);
-          console.log(this.learned);
+          localStorage.setItem('learned', JSON.stringify(this.learned));
           this.rerenderWords();
         } else {
           this.learned.forEach((item,index) => {
             if(item === this.id) {
               this.learned.splice(index, 1)
-              console.log(this.learned)
+              localStorage.setItem('learned', JSON.stringify(this.learned));
               this.rerenderWords();
             }
             this.learned.push(this.id);
-            console.log(this.learned)
+            localStorage.setItem('learned', JSON.stringify(this.learned));
             this.rerenderWords();
           })
-          
         }
-        
       }
 
       this.word.wordBtnBlock.onStatistics = async () => {

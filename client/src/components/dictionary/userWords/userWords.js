@@ -8,6 +8,7 @@ export default class UserWords extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
+    this.learned = JSON.parse(localStorage.getItem('learned')) || [];
     this.wordsRender();
   }
 
@@ -21,6 +22,15 @@ export default class UserWords extends createComponent {
         const btn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
           btn.classList.add('active');
           btn.style.color = '#ffffff';
+          if(this.learned.length) {
+            this.learned.forEach(id => {
+              if(id === this.word.id) {
+                const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
+                learnedBtn.classList.add('active');
+                learnedBtn.style.color = '#ffffff';;
+              }
+            })
+          }
         this.userBtnsHandler(item);
       })
     }
@@ -44,17 +54,17 @@ export default class UserWords extends createComponent {
       this.id = wordData.id;
       if(!this.learned.length) {
         this.learned.push(this.id);
-        console.log(this.learned);
+        localStorage.setItem('learned', JSON.stringify(this.learned));
         this.rerenderWords();
       } else {
         this.learned.forEach((item,index) => {
           if(item === this.id) {
             this.learned.splice(index, 1)
-            console.log(this.learned)
+            localStorage.setItem('learned', JSON.stringify(this.learned));
             this.rerenderWords();
           }
           this.learned.push(this.id);
-          console.log(this.learned)
+          localStorage.setItem('learned', JSON.stringify(this.learned));
           this.rerenderWords();
         })
         
