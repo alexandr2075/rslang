@@ -18,17 +18,17 @@ export default class WordsPage extends CreateComponent {
     this.node.style.fontSize = '16px';
     this.header = new WordsHeader(this.node);
     this.header.toMenuBtn.node.disabled = true;
-    this.toMenuHandler();
-    this.translateHandler();
     this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
+    this.toMenuHandler();
+    this.translateHandler();
   }
 
   async renderUserWords() {
     this.header.toMenuBtn.node.disabled = false;
-    this.userWordsContainer = new CreateComponent(this.node, 'div', 'words-container')
-    this.userWords = new UserWords(this.userWordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.userWordsContainer.node, 'предыдущая', 'следующая');
+    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container')
+    this.userWords = new UserWords(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
     this.toMenuHandler();
 
@@ -97,8 +97,8 @@ export default class WordsPage extends CreateComponent {
   translateHandler() {
     this.header.onTranslate = async() => {
     this.header.checkBox.checkBox.node.checked ? wordsPageState.showTranslate = true: wordsPageState.showTranslate = false;
-    if(this.wordsContainer)  this.rerenderWords()
-    if(this.userWordsContainer) this.rerenderUserWords();
+    if(this.words)  this.rerenderWords()
+    if(this.userWords) this.rerenderUserWords();
     
     }
   }
@@ -109,7 +109,7 @@ export default class WordsPage extends CreateComponent {
   }
 
   rerenderUserWords() {
-      this.userWordsContainer.destroy();
+      this.wordsContainer.destroy();
       this.renderUserWords();
   }
 }

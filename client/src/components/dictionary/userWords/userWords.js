@@ -12,11 +12,11 @@ export default class UserWords extends createComponent {
 
   async wordsRender() {
     const data = await getAllUserWords(this.user.id).then(res => res.json())
-    this.wordsContainer = new createComponent(this.node, 'div', 'user-words__container')
+    this.userWordsContainer = new createComponent(this.node, 'div', 'user-words__container')
     if (data && data.length) {
       const newData = data.filter(item => item.difficulty === 'hard');
       newData.forEach(item => {
-        this.word = new UserWord(this.wordsContainer.node, item.optional.wordData, item.id);
+        this.word = new UserWord(this.userWordsContainer.node, item.optional.wordData, item.id);
         const btn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
           btn.classList.add('active');
           btn.style.color = '#ffffff';
@@ -39,7 +39,7 @@ export default class UserWords extends createComponent {
   }
 
   rerenderWords() {
-    this.wordsContainer.destroy();
+    this.userWordsContainer.destroy();
     this.wordsRender();
   }
 }
