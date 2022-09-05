@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "serve": "webpack serve --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist -m 'Automaticlly update gh-pages [skip ci]'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandr2075/rslang"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +28,7 @@
     "eslint-plugin-import": "^2.25.2",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.12",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "node-sass": "^7.0.1",
