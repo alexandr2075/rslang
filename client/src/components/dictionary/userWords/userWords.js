@@ -38,15 +38,15 @@ export default class UserWords extends createComponent {
   }
 
   async userBtnsHandler(wordData) {
-    this.id = wordData.id;
-    this.wordId = wordData.wordId;
-    const word = {
-      difficulty: "easy",
-    }
-    this.word.wordBtnBlock.onDifficult = async () => {
-      await updateUserWordById(this.user.id, this.wordId, word);
-      this.rerenderWords();
-    }
+    // this.id = wordData.id;
+    // this.wordId = wordData.wordId;
+    // const word = {
+    //   difficulty: "easy",
+    // }
+    // this.word.wordBtnBlock.onDifficult = async () => {
+    //   await updateUserWordById(this.user.id, this.wordId, word);
+    //   this.rerenderWords();
+    // }
     this.word.wordBtnBlock.onStatistics = async () => {
       this.userWordsContainer.destroy();
       this.statistic = new Statistics(this.node);
