@@ -6,6 +6,7 @@ import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 import UserWords from '../userWords/userWords';
 import Sprint from '../../../games/sprint/sprint';
+import AudioGame from '../../../games/AudioCall/Audio';
 
 export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
@@ -39,7 +40,8 @@ export default class WordsPage extends CreateComponent {
     this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
     this.words = new Words(this.wordsContainer.node);
     this.gameContainer = new CreateComponent(this.wordsContainer.node, 'div', 'game-container');
-    this.sprint = new CreateComponent(this.gameContainer.node, 'button', 'game-btn', 'Sprint');
+    this.sprint = new CreateComponent(this.gameContainer.node, 'button', 'game-btn', 'Спринт');
+    this.audioGame = new CreateComponent(this.gameContainer.node, 'button', 'game-btn', 'Аудирование');
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
     this.toMenuHandler();
@@ -48,9 +50,13 @@ export default class WordsPage extends CreateComponent {
 
   gameHandler() {
     this.gameContainer.node.onclick = (event) => {
-      if(event.target.textContent === 'Sprint'){
+      if(event.target.textContent === 'Спринт'){
         this.wordsContainer.destroy();
         this.game = new Sprint(this.node)
+      }
+      if(event.target.textContent === 'Аудирование'){
+        this.wordsContainer.destroy();
+        this.game = new AudioGame(this.node)
       }
     }
   }

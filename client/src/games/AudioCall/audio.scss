@@ -20,10 +20,10 @@
 .timer {
 	align-self: flex-start;
 	font-size: 1.5em;
-	color: white;
+	color: var(--main-color);
 }
 .word-rendering {
-	color: white;
+	color: var(--main-color);
 	font-size: 1.5em;
 	letter-spacing: .1em;
 	margin: .5em 0;
@@ -97,6 +97,7 @@
 }
 .audio-button {
 	line-height: 40px;
+	background-color: inherit;
 	width: 100px;
 	height: 40px;
 	margin-top: 80px;
@@ -118,7 +119,7 @@
 	line-height: 40px;
 	width: 100px;
 	height: 40px;
-	background: white;
+	background: inherit;
 	border: none;
 	border-radius: 8px;
 	color: var(--main-color);

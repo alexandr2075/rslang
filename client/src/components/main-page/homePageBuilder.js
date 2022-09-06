@@ -7,7 +7,7 @@ import Main from './main/main';
 import WordsPage from '../dictionary/words-page/words-page';
 import Sprint from '../../games/sprint/sprint';
 import Statistics from '../statistics/statistics';
-import Audio from '../../games/AudioCall/Audio';
+import AudioGame from '../../games/AudioCall/Audio';
 
 export default class HomePageBuilder extends CreateComponent {
   constructor(parentNode) {
@@ -41,7 +41,7 @@ export default class HomePageBuilder extends CreateComponent {
     this.header.burger.onAudioCall = async () => {
       this.container.destroy();
       this.container = new CreateComponent(this.node, 'div', 'common-container');
-      this.audiocall = new Audio(this.container.node, 'div', 'au', 'Audiocall');
+      this.audiocall = new AudioGame(this.container.node);
     };
     this.header.burger.onSprint = async () => {
       this.container.destroy();
