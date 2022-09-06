@@ -31,13 +31,14 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 .game-btn {
   line-height: 40px;
   width: 100px;
   height: 100px;
-  font-size: 2em;
   background: #181818;
   border: none;
   border-radius: 50%;
