@@ -4,10 +4,10 @@ import Api from "../../utils/api";
 import wordsPageState from "../../utils/state";
 import { getWords } from "../../api/wordsApi";
 import './audio.scss';
-import '../../../assets/audio/correct.mp3'
+
 export default class AudioGame extends CreateComponent {
     constructor(parentNode) {
-        super(parentNode, 'div', 'sprint', '');
+        super(parentNode, 'div', 'audio-game', '');
         this.screensaver = new CreateComponent(this.node, 'div', 'screensaver');
         this.container = new CreateComponent(this.screensaver.node, 'div', 'container');
         this.gameDifficultySelection = new CreateComponent(this.container.node, 'div', 'difficulty-selection');
@@ -18,7 +18,7 @@ export default class AudioGame extends CreateComponent {
           level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
           level.node.style.color = wordsPageState.color[index];
         });
-         this.wright=0;
+        this.wright=0;
         this.error=0;
         this.correctAnswers = [];
         this.wrongAnswers = [];
@@ -51,7 +51,7 @@ export default class AudioGame extends CreateComponent {
         this.renderAudio(num);
       }
     async  renderAudio(group) {
-        this.ContainerGame = new CreateComponent (this.container.node, 'div')
+        this.ContainerGame = new CreateComponent (this.container.node, 'div');
         this.timer = new CreateComponent(this.ContainerGame.node, 'div', 'timer');
         this.audioBtn = new CreateComponent(this.ContainerGame.node, 'button' , 'audio-button');
         this.audioBtn.node.innerHTML = `<i class="fa fa-volume-up" data-audio="${this.audio}"></i>`;
@@ -74,10 +74,10 @@ export default class AudioGame extends CreateComponent {
       
       });
       return { audio, translate };
-      
     }
+
     async gameLogic(group) {
-      let index = Math.round(0 + Math.random() * 20);
+      let index = Math.round(Math.random() * 20);
       let n = 0;
       let arr = await this.getWordArray(n, group);
       let audio = new Audio();
@@ -87,7 +87,7 @@ export default class AudioGame extends CreateComponent {
     if(index < 17){
      translateWords = arr.translate.slice(index, index + 4 ) 
     } else {
-      translateWords = arr.translate.slice(index - 4, index)
+      translateWords = arr.translate.slice(index - 3, index + 1)
     }
     const sortArray = translateWords.sort(() => Math.random() - 0.5);
     let audioWord = arr.audio[index];
