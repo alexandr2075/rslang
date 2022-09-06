@@ -18,28 +18,32 @@ export default class Words extends createComponent {
   async wordsRender() {
     this.wordsContainer = new createComponent(this.node, 'div', 'user-words__container')
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
-    const userData = await getAllUserWords(this.user.id).then(res => res.json());
-    console.log(this.learned)
+    let userData;
+    if (this.user) {
+      userData = await getAllUserWords(this.user.id).then(res => res.json());
+    }
     const data = await getWords(wordsPageState.page - 1, wordsPageState.group);
     data.forEach((item) => {
       this.word = new Word(this.wordsContainer.node, item);
-      userData.forEach(word => {
-        if (word.wordId === this.word.id && word.difficulty === 'hard') {
-          const difficulBtn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
-          difficulBtn.classList.add('active');
-          difficulBtn.style.color = '#ffffff'
-        }
-        if ([...this.learned].length) {
-          [...this.learned].forEach(id => {
-            if (id === this.word.id) {
-              const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
-              learnedBtn.classList.add('active');
-              learnedBtn.style.color = '#ffffff';
-            }
-          })
-        }
-      })
-      this.userBtnsHandler(item);
+      if (this.user) {
+        userData.forEach(word => {
+          if (word.wordId === this.word.id && word.difficulty === 'hard') {
+            const difficulBtn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
+            difficulBtn.classList.add('active');
+            difficulBtn.style.color = '#ffffff'
+          }
+          if ([...this.learned].length) {
+            [...this.learned].forEach(id => {
+              if (id === this.word.id) {
+                const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
+                learnedBtn.classList.add('active');
+                learnedBtn.style.color = '#ffffff';
+              }
+            })
+          }
+        })
+        this.userBtnsHandler(item);
+      }
     });
   }
 
