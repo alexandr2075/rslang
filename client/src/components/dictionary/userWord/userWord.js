@@ -1,5 +1,6 @@
 import wordsPageState from "../../../utils/state";
 import Word from "../word/word";
+import { updateUserWordById } from "../../../api/userWordsApi";
 
 export default class UserWord extends Word {
   constructor(parentNode, data) {
@@ -7,7 +8,19 @@ export default class UserWord extends Word {
     this.data = data;
     this.group = data.group;
     this.setStyles();
+    this.deleteDifficultHandler()
   }
+  
+  deleteDifficultHandler() {
+    const word = {
+      difficulty: "easy",
+    }
+    this.wordBtnBlock.onDifficult = async () => {
+      await updateUserWordById(this.user.id, this.id, word);
+      this.destroy();
+    }
+  }
+ 
   
   setStyles() {
     this.color = wordsPageState.color[this.group]

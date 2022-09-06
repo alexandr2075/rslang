@@ -2,36 +2,34 @@ import CreateComponent from '../../../utils/createComponent';
 import Words from '../words/words';
 import PaginationButtons from '../../pagination/pagination-buttons';
 import wordsPageState from '../../../utils/state';
-import Footer from '../../main-page/footer/footer';
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 import UserWords from '../userWords/userWords';
-// import { getAllUserWords } from '../../../api/userWordsApi';
+import Sprint from '../../../games/sprint/sprint';
 
 export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
-    document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    this.node.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('../../../../assets/images/dictionary-background.jpg')`;
-    document.body.style.backgroundAttachment = 'fixed';
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.position = 'relative';
-    document.body.style.fontSize = '16px';
+    this.node.style.backgroundAttachment = 'fixed';
+    this.node.style.backgroundSize = 'cover';
+    this.node.style.position = 'relative';
+    this.node.style.fontSize = '16px';
     this.header = new WordsHeader(this.node);
     this.header.toMenuBtn.node.disabled = true;
-    this.toMenuHandler();
-    this.translateHandler();
     this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
+    this.toMenuHandler();
+    this.translateHandler();
   }
 
   async renderUserWords() {
     this.header.toMenuBtn.node.disabled = false;
-    this.userWordsContainer = new CreateComponent(this.node, 'div', 'words-container')
-    this.userWords = new UserWords(this.userWordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.userWordsContainer.node, 'предыдущая', 'следующая');
+    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container')
+    this.userWords = new UserWords(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    this.footer = new Footer(this.userWordsContainer.node);
     this.toMenuHandler();
 
   }
@@ -39,13 +37,23 @@ export default class WordsPage extends CreateComponent {
   renderWords() {
     this.header.toMenuBtn.node.disabled = false;
     this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
-    this.userWords = new Words(this.wordsContainer.node);
+    this.words = new Words(this.wordsContainer.node);
+    this.gameContainer = new CreateComponent(this.wordsContainer.node, 'div', 'game-container');
+    this.sprint = new CreateComponent(this.gameContainer.node, 'button', 'game-btn', 'Sprint');
     this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    // this.footer = new Footer(this.wordsContainer.node);
     this.toMenuHandler();
+    this.gameHandler();
   }
 
+  gameHandler() {
+    this.gameContainer.node.onclick = (event) => {
+      if(event.target.textContent === 'Sprint'){
+        this.wordsContainer.destroy();
+        this.game = new Sprint(this.node)
+      }
+    }
+  }
   toMenuHandler() {
     this.header.onMenuPage = async () => {
       if(this.wordsContainer)  this.wordsContainer.destroy()
@@ -89,8 +97,8 @@ export default class WordsPage extends CreateComponent {
   translateHandler() {
     this.header.onTranslate = async() => {
     this.header.checkBox.checkBox.node.checked ? wordsPageState.showTranslate = true: wordsPageState.showTranslate = false;
-    if(this.wordsContainer)  this.rerenderWords()
-    if(this.userWordsContainer) this.rerenderUserWords();
+    if(this.words)  this.rerenderWords()
+    if(this.userWords) this.rerenderUserWords();
     
     }
   }
@@ -101,7 +109,7 @@ export default class WordsPage extends CreateComponent {
   }
 
   rerenderUserWords() {
-      this.userWordsContainer.destroy();
+      this.wordsContainer.destroy();
       this.renderUserWords();
   }
 }
