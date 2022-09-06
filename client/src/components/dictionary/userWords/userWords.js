@@ -1,38 +1,69 @@
-import { deleteUserWord, getAllUserWords } from "../../../api/userWordsApi";
+import { deleteUserWord, getAllUserWords, updateUserWordById } from "../../../api/userWordsApi";
 import createComponent from "../../../utils/createComponent";
+import Statistics from "../../statistics/statistics";
 import UserWord from "../userWord/userWord";
+
 
 export default class UserWords extends createComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'words', '');
-    this.wordsRender()
-  }
-
-   async wordsRender() {
-    this.user = JSON.parse(localStorage.getItem('idAndEmail'))
-    const data = await getAllUserWords(this.user.id).then(res => res.json())
-    this.wordsContainer = new createComponent(this.node, 'div', 'user-words__container')
-    console.log(data)
-    if(data && data.length){
-      data.forEach(item => {
-        this.word = new UserWord(this.wordsContainer.node, item.optional.wordData);
-        this.userBtnsHandler(item.optional.wordData);
-      }) 
-    }
-  }
-
-  userBtnsHandler(wordData) {
     this.user = JSON.parse(localStorage.getItem('idAndEmail'));
-    this.id = wordData.id;
-    this.word.wordBtnBlock.onDifficult = async() => {
-      await deleteUserWord(this.user.id, this.id)
-      console.log(deleteUserWord(this.user.id, this.id))
-      this.rerenderWords();
-      }
+    this.learned = new Set(JSON.parse(localStorage.getItem('learned'))) || [];
+    this.wordsRender();
+  }
+
+  async wordsRender() {
+    const data = await getAllUserWords(this.user.id).then(res => res.json())
+    this.userWordsContainer = new createComponent(this.node, 'div', 'user-words__container')
+    if (data && data.length) {
+      const newData = data.filter(item => item.difficulty === 'hard');
+      newData.forEach(item => {
+        this.word = new UserWord(this.userWordsContainer.node, item.optional.wordData, item.id);
+
+        const btn = this.word.wordBtnBlock.node.childNodes[0].firstChild;
+        btn.classList.add('active');
+        btn.style.color = '#ffffff';
+        if ([...this.learned].length) {
+          [...this.learned].forEach(id => {
+            if (id === this.word.id) {
+              const learnedBtn = this.word.wordBtnBlock.node.childNodes[1].firstChild;
+              learnedBtn.classList.add('active');
+              learnedBtn.style.color = '#ffffff';;
+            }
+          })
+        }
+        this.userBtnsHandler(item);
+      })
     }
+  }
+
+  async userBtnsHandler(wordData) {
+    // this.id = wordData.id;
+    // this.wordId = wordData.wordId;
+    // const word = {
+    //   difficulty: "easy",
+    // }
+    // this.word.wordBtnBlock.onDifficult = async () => {
+    //   await updateUserWordById(this.user.id, this.wordId, word);
+    //   this.rerenderWords();
+    // }
+    this.word.wordBtnBlock.onStatistics = async () => {
+      this.userWordsContainer.destroy();
+      this.statistic = new Statistics(this.node);
+    }
+    this.word.wordBtnBlock.onLearned = async () => {
+      this.id = wordData.id;
+      this.learned.has(this.id) ? this.learned.delete(this.id) : this.learned.add(this.id);
+      localStorage.setItem('learned', JSON.stringify([...this.learned]));
+      this.rerenderWords();
+    }
+
+  }
+
+
 
   rerenderWords() {
-    this.wordsContainer.destroy();
+    this.userWordsContainer.destroy();
     this.wordsRender();
   }
 }

@@ -5,6 +5,7 @@ import wordsPageState from '../../utils/state';
 import { getWords } from '../../api/wordsApi';
 import done from '../../../assets/images/done.jpg';
 import falsy from '../../../assets/images/falsy.jpg';
+import { upsertStatistics } from '../../api/statisticApi';
 
 export default class Sprint extends CreateComponent {
   constructor(parentNode) {
@@ -64,7 +65,7 @@ export default class Sprint extends CreateComponent {
   }
 
   timerLogic() {
-    let counter = 6;
+    let counter = 60;
     const id = setInterval(() => {
       this.timer.node.innerText = counter;
       counter -= 1;
@@ -81,6 +82,7 @@ export default class Sprint extends CreateComponent {
             correct[idWord] = 1;
           }
         });
+
         const { wrong } = wordsPageState.wordsFromSprint.userId;
         this.arrIdWordsWrongAnswerSprint.forEach((idWord) => {
           if (Object.prototype.hasOwnProperty.call(wrong, idWord)) {
@@ -89,12 +91,19 @@ export default class Sprint extends CreateComponent {
             wrong[idWord] = 1;
           }
         });
-        console.log(wordsPageState);
+
+        upsertStatistics(JSON.parse(localStorage.token).userId, {
+          learnedWords: 20,
+          optional: {
+            correct,
+            wrong,
+          },
+        });
       }
     }, 1000);
   }
 
-  async getWordArray(n, group) {
+  static async getWordArray(n, group) {
     const defaultWordsFromTheserver = await getWords(n, group);
     const engl = [];
     const translate = [];
@@ -109,11 +118,10 @@ export default class Sprint extends CreateComponent {
   async gameLogic(group) {
     let index = 0;
     let n = 0;
-    console.log(group);
-    let arr = await this.getWordArray(n, group);
+    let arr = await Sprint.getWordArray(n, group);
     this.englishWord.node.innerText = arr.engl[index].english;
     this.wordTranslation.node.innerText = arr.sortTranslate[index].russian;
-
+    // onNextPage-это кнопка "верно"
     this.paginationButtons.onNextPage = async () => {
       if (arr.engl[index].id === arr.sortTranslate[index].id) {
         this.mark.node.style.backgroundImage = `url(${done})`;
@@ -128,12 +136,13 @@ export default class Sprint extends CreateComponent {
       index += 1;
       if (index > 19) {
         n += 1;
-        arr = await this.getWordArray(n);
+        arr = await Sprint.getWordArray(n);
         index = 0;
       }
       this.englishWord.node.innerText = arr.engl[index].english;
       this.wordTranslation.node.innerText = arr.sortTranslate[index].russian;
     };
+    // onPrevPage-это кнопка "неверно"
     this.paginationButtons.onPrevPage = async () => {
       if (arr.engl[index].id !== arr.sortTranslate[index].id) {
         this.mark.node.style.backgroundImage = `url(${done})`;
@@ -148,7 +157,7 @@ export default class Sprint extends CreateComponent {
       index += 1;
       if (index > 19) {
         n += 1;
-        arr = await this.getWordArray(n);
+        arr = await Sprint.getWordArray(n);
         index = 0;
       }
       this.englishWord.node.innerText = arr.engl[index].english;
@@ -162,10 +171,7 @@ export default class Sprint extends CreateComponent {
     this.titleResults = new CreateComponent(this.results.node, 'div', 'title-results', 'Результаты');
     this.containerResultsList = new CreateComponent(this.results.node, 'div', 'container-results');
     this.resultsList = new CreateComponent(this.containerResultsList.node, 'ul', 'results-list');
-    this.close.node.onclick = () => {
-      this.screensaver.destroy();
-      location.hash = ' ';
-    };
+
     this.correctAnswers.forEach((level, index) => {
       level = new CreateComponent(this.resultsList.node, 'li', `correct-${index} li-list`, `${this.correctAnswers[index]}`);
       level.node.setAttribute('data-correct', index);
@@ -178,5 +184,19 @@ export default class Sprint extends CreateComponent {
       level.node.style.border = '1px solid red';
       level.node.style.color = 'white';
     });
+
+    // удаление стр результатов и отрисовка стр выбора сложности игры
+    this.close.node.onclick = () => {
+      this.container.destroy();
+      this.container = new CreateComponent(this.screensaver.node, 'div', 'container');
+      this.gameDifficultySelection = new CreateComponent(this.container.node, 'div', 'difficulty-selection');
+      this.difficulty = new CreateComponent(this.gameDifficultySelection.node, 'p', 'difficulty', 'Выберите сложность игры');
+      wordsPageState.levels.forEach((level, index) => {
+        level = new CreateComponent(this.gameDifficultySelection.node, 'div', `level-btn ${wordsPageState.levels[index].slice(3)}`, `${wordsPageState.levels[index]}`);
+        level.node.setAttribute('data-group', index);
+        level.node.style.border = `1px solid ${wordsPageState.color[index]}`;
+        level.node.style.color = wordsPageState.color[index];
+      });
+    };
   }
 }

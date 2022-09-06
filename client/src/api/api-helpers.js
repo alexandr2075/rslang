@@ -12,7 +12,7 @@ export async function fetchWithToken(url, options) {
   if(localStorage.token) {
     token = JSON.parse(localStorage.token);
   } else {
-    new Auth(document.body)
+    new Auth(document.body, 'Регистрация')
   }
   
   if(!options.headers) {
@@ -29,7 +29,7 @@ export async function fetchWithToken(url, options) {
       saveToken(newToken);
       } 
       catch(e) {
-       new Auth(document.body)
+       new Auth(document.body, 'Войти')
       }
     }
     options.headers.Authorization = `Bearer ${token.token}`

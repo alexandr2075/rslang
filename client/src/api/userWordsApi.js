@@ -44,26 +44,17 @@ const getUserWordById = async (userId, wordId, token) => {
   return response.json();
 };
 
-const updateUserWordById = async (userId, wordId, word, token) => {
-  const url = `${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`;
-  const response = await fetch(url, {
+function updateUserWordById(userId, wordId, word) {
+  return fetchWithToken(`${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`, {
     method: 'PUT',
     withCredentials: true,
     headers: {
-      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(word),
   });
-  if (response.status === 400) {
-    throw new Error('Bad request');
-  } if (response.status === 401) {
-    throw new Error('Access token is missing or invalid');
-  }
-
-  return response.json();
-};
+}
 
 function deleteUserWord(userId, wordId) {
   return fetchWithToken(`${Api.baseUrl}/${Api.endpoints.users}/${userId}/${Api.endpoints.words}/${wordId}`, {

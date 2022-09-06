@@ -1,8 +1,5 @@
 import './burger.scss';
 import CreateComponent from '../../utils/createComponent';
-import WordsMenu from '../dictionary/words-menu/words-menu';
-import Sprint from '../../games/sprint/sprint';
-import Header from '../main-page/header/header';
 
 export default class Burger extends CreateComponent {
   constructor(parentNode) {
@@ -11,34 +8,63 @@ export default class Burger extends CreateComponent {
     this.stripCenter = new CreateComponent(this.node, 'span', 'strip');
     this.stripBottom = new CreateComponent(this.node, 'span', 'strip');
 
-	  this.renderDropDownMenu();
+    this.renderDropDownMenu();
     this.setEventListener();
   }
 
   renderDropDownMenu() {
     this.menuBurger = new CreateComponent(document.body, 'div', 'drop-down-menu');
-    this.menuBurger.node.innerHTML = `
-		<div>
-			<nav>
-				<ul>
-					<li class='burger burger-main'><a href="#main">Главная</a></li>
-					<li class='burger burger-dictionary'><a href="/posts">Учебник</a></li>
-					<li class='burger burger-stat'><a href="#statistics">Статистика</a></li>
-					<li class='burger burger-audiocall'><a href="#audiocall">Аудиовызов</a></li>
-					<li class='burger burger-sprint'><a href="#sprint">Спринт</a></li>
-					<li class='burger burger-about-team'><a href="#about-team">О команде</a></li>
-				</ul>
-			</nav>
-		</div>
-	  `;
-	  }
+    this.menu = new CreateComponent(this.menuBurger.node, 'div');
+    this.navigation = new CreateComponent(this.menu.node, 'nav');
+    this.menuList = new CreateComponent(this.navigation.node, 'ul');
 
-	  setEventListener() {
+    this.menuItemMain = new CreateComponent(this.menuList.node, 'li', 'burger burger-main', 'Главная');
+    this.menuItemMain.node.setAttribute('data-menu', 'main');
+
+    this.menuItemDictionary = new CreateComponent(this.menuList.node, 'li', 'burger burger-dictionary', 'Учебник');
+    this.menuItemDictionary.node.setAttribute('data-menu', 'dictionary');
+
+    this.menuItemStat = new CreateComponent(this.menuList.node, 'li', 'burger burger-stat', 'Статистика');
+    this.menuItemStat.node.setAttribute('data-menu', 'stat');
+
+    this.menuItemAudiocall = new CreateComponent(this.menuList.node, 'li', 'burger burger-audiocall', 'Аудиовызов');
+    this.menuItemAudiocall.node.setAttribute('data-menu', 'audiocall', 'Аудиовызов');
+
+    this.menuItemSprint = new CreateComponent(this.menuList.node, 'li', 'burger burger-sprint', 'Спринт');
+    this.menuItemSprint.node.setAttribute('data-menu', 'sprint');
+
+    this.menuItemAboutTeam = new CreateComponent(this.menuList.node, 'li', 'burger burger-about-team', 'О команде'); 
+    this.menuItemAboutTeam.node.setAttribute('data-menu', 'about-team');
+  }
+
+  setEventListener() {
     this.node.onclick = () => {
       this.menuBurger.node.classList.toggle('active');
     };
-    this.menuBurger.node.onclick = () => {
+    this.menuBurger.node.onclick = (event) => {
+
       this.menuBurger.node.classList.toggle('active');
+      switch (event.target.dataset.menu) {
+        case 'dictionary':
+          this.onDictionary();
+          break;
+        case 'main':
+          this.onMain();
+          break;
+        case 'stat':
+          this.onStat();
+          break;
+        case 'audiocall':
+          this.onAudioCall();
+          break;
+        case 'sprint':
+          this.onSprint();
+          break;
+        case 'about-team':
+          this.onTeam();
+          break;
+        default:
+      }
     };
   }
 }

@@ -2,47 +2,65 @@ import CreateComponent from '../../../utils/createComponent';
 import Words from '../words/words';
 import PaginationButtons from '../../pagination/pagination-buttons';
 import wordsPageState from '../../../utils/state';
-import Footer from '../../main-page/footer/footer';
 import WordsMenu from '../words-menu/words-menu';
 import WordsHeader from '../words-header/words-header';
 import UserWords from '../userWords/userWords';
-// import { getAllUserWords } from '../../../api/userWordsApi';
+import Sprint from '../../../games/sprint/sprint';
 
 export default class WordsPage extends CreateComponent {
   constructor(parentNode) {
     super(parentNode, 'div', 'dictionary', '');
+    this.node.style.background = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../../../../assets/images/dictionary-background.jpg')`;
+    this.node.style.backgroundAttachment = 'fixed';
+    this.node.style.backgroundSize = 'cover';
+    this.node.style.position = 'relative';
+    this.node.style.fontSize = '16px';
     this.header = new WordsHeader(this.node);
     this.header.toMenuBtn.node.disabled = true;
-    this.toMenuHandler();
-    // this.translateHandler()
     this.menu = new WordsMenu(this.node);
     this.groupRoutHandler();
+    this.toMenuHandler();
+    this.translateHandler();
   }
 
   async renderUserWords() {
     this.header.toMenuBtn.node.disabled = false;
-    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
+    this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container')
     this.userWords = new UserWords(this.wordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    this.footer = new Footer(this.wordsContainer.node);
+    this.toMenuHandler();
+
   }
 
   renderWords() {
+    this.header.toMenuBtn.node.disabled = false;
     this.wordsContainer = new CreateComponent(this.node, 'div', 'words-container');
-    this.header = new WordsHeader(this.wordsContainer.node);
     this.words = new Words(this.wordsContainer.node);
-    this.paginationButtons = new PaginationButtons(this.wordsContainer.node);
+    this.gameContainer = new CreateComponent(this.wordsContainer.node, 'div', 'game-container');
+    this.sprint = new CreateComponent(this.gameContainer.node, 'button', 'game-btn', 'Sprint');
+    this.paginationButtons = new PaginationButtons(this.wordsContainer.node, 'предыдущая', 'следующая');
     this.paginationHandler();
-    this.footer = new Footer(this.wordsContainer.node);
     this.toMenuHandler();
+    this.gameHandler();
   }
 
+  gameHandler() {
+    this.gameContainer.node.onclick = (event) => {
+      if(event.target.textContent === 'Sprint'){
+        this.wordsContainer.destroy();
+        this.game = new Sprint(this.node)
+      }
+    }
+  }
   toMenuHandler() {
     this.header.onMenuPage = async () => {
-      this.wordsContainer.destroy();
+      if(this.wordsContainer)  this.wordsContainer.destroy()
+      if(this.userWordsContainer) this.userWordsContainer.destroy();
       this.menu = new WordsMenu(this.node);
       this.groupRoutHandler();
+      this.header.toMenuBtn.node.disabled = true;
     };
   }
 
@@ -76,15 +94,22 @@ export default class WordsPage extends CreateComponent {
     };
   }
 
+  translateHandler() {
+    this.header.onTranslate = async() => {
+    this.header.checkBox.checkBox.node.checked ? wordsPageState.showTranslate = true: wordsPageState.showTranslate = false;
+    if(this.words)  this.rerenderWords()
+    if(this.userWords) this.rerenderUserWords();
+    
+    }
+  }
+
   rerenderWords() {
     this.wordsContainer.destroy();
     this.renderWords();
   }
 
   rerenderUserWords() {
-    this.UserWords.onDelete = async () => {
       this.wordsContainer.destroy();
       this.renderUserWords();
-    };
   }
 }
