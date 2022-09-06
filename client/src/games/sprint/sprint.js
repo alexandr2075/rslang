@@ -8,7 +8,7 @@ import falsy from '../../../assets/images/falsy.jpg';
 
 export default class Sprint extends CreateComponent {
   constructor(parentNode) {
-    super(parentNode, 'div', 'audioGame', '');
+    super(parentNode, 'div', 'sprint', '');
     this.screensaver = new CreateComponent(this.node, 'div', 'screensaver');
     this.container = new CreateComponent(this.screensaver.node, 'div', 'container');
     this.gameDifficultySelection = new CreateComponent(this.container.node, 'div', 'difficulty-selection');
