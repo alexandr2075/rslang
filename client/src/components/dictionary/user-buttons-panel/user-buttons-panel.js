@@ -29,7 +29,8 @@ export default class UserButtonsPanel extends createComponent {
         this.onLearned();
       }
       if(target.dataset.panel === 'statistic') {
-        this.onStatistic();
+        console.log('click')
+        this.onStatistics();
       }
     }
   }

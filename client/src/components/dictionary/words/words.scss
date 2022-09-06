@@ -6,7 +6,7 @@
 
 .words { 
   max-width: 1200px;
-  margin: 2em auto 0 auto;
+  margin: 1em auto;
   margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
@@ -14,7 +14,6 @@
   align-content: center;
   gap: 1em;
   overflow: hidden;
-  padding-top: 3em;
 }
 
 .user-words__container {
@@ -26,4 +25,33 @@
   gap: 1em;
   overflow: hidden;
   padding-bottom: 1em;
+}
+
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.game-btn {
+  line-height: 40px;
+  width: 100px;
+  height: 100px;
+  font-size: 2em;
+  background: #181818;
+  border: none;
+  border-radius: 50%;
+  background: url(../../../../assets/images/main-background.jpg);
+  color: var(--main-color);
+  box-shadow: 0 4px 10px var(--main-color), inset 0 2px 3px var(--main-color);
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover,
+  &:disabled {
+    transform: translateY(4px);
+    box-shadow: 0 1px 2px var(--main-color);
+    border-bottom: 1px solid #303030;
+    color: #797979;
+  }
 }
